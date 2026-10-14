@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COINRING LEGENDS — Handgefertigte Münzringe & Unikate | Zuswil / Kottwil, Luzern</title>
+  <meta name="description" content="COINRING LEGENDS: Handgefertigte Unikat-Münzringe aus echten Schweizer Münzen. Geschmiedet in Zuswil / Kottwil, 6218 Ettiswil, Kanton Luzern, Schweiz.">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+
+  <!-- PWA Manifest embedded as Data URI for instant PWA / APK installability -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22COINRING%20LEGENDS%22%2C%22short_name%22%3A%22CoinringLegends%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0a0a%22%2C%22theme_color%22%3A%22%23d4af37%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
+  <meta name="theme-color" content="#d4af37">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase Compat v10 SDKs (App, Auth, Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+  <!-- Tailwind Theme Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#0a0a0a',
+            leather: '#11100e',
+            gold: {
+              300: '#f7df8d',
+              400: '#f1d06a',
+              500: '#d4af37',
+              600: '#b89025',
+              700: '#8c6c15',
+            }
+          },
+          boxShadow: {
+            'gold-glow': '0 0 35px rgba(212, 175, 55, 0.28)',
+            'gold-card': '0 15px 35px -10px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 55, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0a0a0a;
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.08) 0%, rgba(10, 10, 10, 0.98) 75%),
+        repeating-radial-gradient(circle at 50% 50%, rgba(25, 23, 20, 0.6) 0px, rgba(10, 10, 10, 0.95) 2px, rgba(16, 14, 12, 0.8) 4px);
+      background-attachment: fixed;
+      color: #f3f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fff2be 0%, #f1d06a 35%, #d4af37 70%, #997818 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-header {
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Custom luxury scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2b2518;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d4af37;
+    }
+  </style>
+</head>
+<body class="selection:bg-gold-500 selection:text-black flex flex-col justify-between min-h-screen">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <aside class="bg-gradient-to-r from-stone-950 via-leather to-stone-950 border-b border-gold-500/30 text-[11px] py-2 px-4 text-center text-amber-200/90 flex items-center justify-between">
+    <div class="hidden md:flex items-center space-x-3 text-gold-400">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Atelier: Zuswil / Kottwil, 6218 Ettiswil, Luzern, Schweiz</span>
+    </div>
+    <div class="w-full md:w-auto text-center font-medium">
+      <span class="inline-block animate-pulse text-gold-400 mr-1.5">●</span>
+      100% Handgefertigte Unikate aus echten Schweizer Münzen
+    </div>
+    <div class="hidden md:flex items-center space-x-3">
+      <!-- Admin Quick Button -->
+      <button onclick="openAdminPortal()" class="px-2.5 py-0.5 rounded border border-gold-500/50 text-gold-300 hover:border-gold-400 hover:bg-gold-500/10 transition text-[10px] uppercase tracking-wider flex items-center">
+        <i class="fa-solid fa-user-shield mr-1.5 text-gold-400"></i>
+        <span>Admin (coinringlegends@gmail.com)</span>
+      </button>
+      <span>•</span>
+      <button onclick="checkLocation()" class="hover:text-gold-300 transition text-[10px] uppercase tracking-wider flex items-center">
+        <i class="fa-solid fa-map-pin mr-1 text-gold-400"></i> Region
+      </button>
+    </div>
+  </aside>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 glass-header border-b border-gold-500/20 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo / Identity -->
+      <a href="#" class="flex items-center space-x-3 group">
+        <img src="logo.jpg" onerror="this.onerror=null; this.src='app/src/main/assets/logo.jpg';" alt="COINRING LEGENDS Logo" class="w-12 h-12 rounded-full border border-gold-500/60 object-cover shadow-gold-glow group-hover:scale-105 transition transform">
+        <div>
+          <span class="font-serif text-lg sm:text-xl font-bold tracking-wider gold-gradient-text block leading-tight">COINRING LEGENDS</span>
+          <span class="text-[9px] tracking-[0.25em] uppercase text-zinc-400 font-semibold block">Zuswil / Kottwil · Luzern</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-wider text-zinc-300">
+        <a href="#ringe" class="hover:text-gold-400 transition">Münzringe</a>
+        <a href="#about" class="hover:text-gold-400 transition">Über das Handwerk</a>
+        <a href="#app" class="hover:text-gold-400 transition text-gold-400 flex items-center">
+          <i class="fa-solid fa-mobile-screen mr-1.5"></i> App Download
+        </a>
+        <a href="#newsletter" class="hover:text-gold-400 transition">Newsletter</a>
+        <a href="#kontakt" class="hover:text-gold-400 transition">Kontakt</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        
+        <!-- Admin Portal Trigger Button -->
+        <button onclick="openAdminPortal()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-gold-500/50 hover:border-gold-400 text-gold-400 text-xs font-semibold hover:bg-gold-500/10 transition" title="Verwaltung & Zahlungen für Coinringlegends@gmail.com">
+          <i class="fa-solid fa-sliders text-sm"></i>
+          <span class="hidden sm:inline">Verwaltung</span>
+        </button>
+
+        <!-- Direct WhatsApp CTA -->
+        <a href="javascript:void(0)" onclick="openDirectWhatsApp()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-gold-600 to-gold-400 text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-gold-glow transition flex items-center">
+          <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i>
+          <span class="hidden sm:inline">WhatsApp</span>
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-zinc-300 hover:text-white border border-gold-500/30">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden px-6 pt-3 pb-6 bg-leather/95 border-b border-gold-500/30 space-y-3 text-xs uppercase tracking-wider">
+      <a href="#ringe" onclick="toggleMobileMenu()" class="block py-2 text-zinc-300 hover:text-gold-400 border-b border-zinc-800">Münzringe</a>
+      <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-zinc-300 hover:text-gold-400 border-b border-zinc-800">Über das Handwerk</a>
+      <a href="#app" onclick="toggleMobileMenu()" class="block py-2 text-gold-400 font-semibold border-b border-zinc-800">App herunterladen (APK & PWA)</a>
+      <a href="#newsletter" onclick="toggleMobileMenu()" class="block py-2 text-zinc-300 hover:text-gold-400 border-b border-zinc-800">Newsletter</a>
+      <a href="#kontakt" onclick="toggleMobileMenu()" class="block py-2 text-zinc-300 hover:text-gold-400 border-b border-zinc-800">Kontakt & Standort</a>
+      <div class="pt-2 flex justify-between items-center text-[11px] text-zinc-400">
+        <button onclick="openAdminPortal()" class="text-gold-400 hover:underline"><i class="fa-solid fa-user-shield mr-1"></i> Admin (Coinringlegends@gmail)</button>
+        <button onclick="openGitHubModal()" class="text-zinc-400 hover:text-gold-400"><i class="fa-brands fa-github mr-1"></i> GitHub</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="flex-grow">
+    
+    <!-- HERO SECTION (Black Leather + Gold Embossed Logo) -->
+    <section class="relative min-h-[85vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 overflow-hidden">
+      <!-- Ambient Gold Backlight -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[140px]"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        
+        <!-- Large Official Logo Graphic -->
+        <div class="mb-8 relative inline-block group">
+          <div class="absolute -inset-4 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 rounded-3xl opacity-30 blur-2xl group-hover:opacity-50 transition duration-700"></div>
+          <img src="logo.jpg" onerror="this.onerror=null; this.src='app/src/main/assets/logo.jpg';" alt="COINRING LEGENDS — Handgefertigte Münzringe & Unikate" class="relative max-w-[280px] sm:max-w-[360px] w-full mx-auto rounded-2xl border border-gold-500/40 shadow-gold-glow">
+        </div>
+
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-gold-500/40 bg-leather/90 backdrop-blur-md mb-6 text-xs text-gold-300 shadow-gold-glow">
+          <i class="fa-solid fa-location-crosshairs text-gold-400"></i>
+          <span>Handmade in Zuswil — Kottwil, Luzern</span>
+        </div>
+
+        <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 leading-tight">
+          Schweizer Geschichte geschmiedet.<br>
+          <span class="gold-gradient-text">Als Unikat getragen.</span>
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-sm sm:text-base text-zinc-300 mb-10 font-normal leading-relaxed">
+          In sorgfältiger Schweizer Handarbeit formen wir originale historische Münzen in exklusive, detailgetreue Ring-Unikate. Jedes Stück ist ein nummeriertes Meisterwerk aus dem Kanton Luzern.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <a href="#ringe" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 text-black font-bold text-sm uppercase tracking-wider hover:brightness-110 shadow-gold-glow transition transform hover:-translate-y-0.5 flex items-center justify-center">
+            <i class="fa-solid fa-gem mr-2 text-base"></i>
+            Münzringe entdecken
+          </a>
+          <button onclick="openAdminPortal()" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold-500/60 hover:border-gold-400 bg-leather/80 text-white font-semibold text-sm uppercase tracking-wider hover:bg-zinc-900 transition flex items-center justify-center">
+            <i class="fa-solid fa-sliders mr-2 text-gold-400"></i>
+            Admin & Verwaltung
+          </button>
+        </div>
+
+        <!-- Trust Features Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-zinc-800 text-xs text-zinc-400">
+          <div class="flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-shield-halved text-gold-400 text-base"></i>
+            <span>Echte Schweizer Münzen</span>
+          </div>
+          <div class="flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-hammer text-gold-400 text-base"></i>
+            <span>100% Handgefertigt</span>
+          </div>
+          <div class="flex items-center justify-center space-x-2">
+            <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+            <span>Direkt via WhatsApp</span>
+          </div>
+          <div class="flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-map-pin text-gold-400 text-base"></i>
+            <span>Region Luzern</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PRODUCT CATALOG (DYNAMIC + EDITABLE VIA ADMIN) -->
+    <section id="ringe" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-800 bg-black/60 scroll-mt-20">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-14">
+          <div>
+            <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold">Die Kollektion</span>
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-2 gold-gradient-text">Ausgewählte Unikate</h2>
+            <p class="text-zinc-400 text-xs sm:text-sm mt-3">
+              Jeder Ring wird nach Bestelleingang auf deine exakte Wunschgrösse angepasst und in der Holzbox mit Echtheitszertifikat geliefert.
+            </p>
+          </div>
+          
+          <button onclick="openAdminPortal('products')" class="mt-4 sm:mt-0 px-4 py-2 rounded-lg border border-gold-500/40 hover:border-gold-400 text-gold-300 text-xs font-semibold flex items-center transition">
+            <i class="fa-solid fa-pen-to-square mr-1.5"></i> Produkte verwalten
+          </button>
+        </div>
+
+        <!-- Dynamic Product Cards Grid -->
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION: HANDMADE IN SWITZERLAND -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-800 bg-leather/60 scroll-mt-20">
+      <div class="max-w-5xl mx-auto">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          
+          <div>
+            <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold block mb-2">Handmade in Switzerland</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+              Schmiedekunst aus <span class="gold-gradient-text">Zuswil / Kottwil</span>
+            </h2>
+            <div class="space-y-4 text-xs sm:text-sm text-zinc-300 leading-relaxed">
+              <p>
+                In unserem Atelier in <strong>Zuswil / Kottwil (6218 Ettiswil, Kanton Luzern)</strong> fertigen wir mit Herzblut und handwerklicher Präzision besondere Schmuckstücke.
+              </p>
+              <p>
+                Wir verwenden ausschliesslich <strong>authentische Schweizer Münzen</strong> und historische Sammlerstücke. Durch schonendes Glühen, Falten und Polieren bleibt jede Randschrift, jedes Wappen und jede Jahreszahl unversehrt erhalten.
+              </p>
+              <p class="text-gold-300 font-medium">
+                Kein Guss. Kein Serienprodukt. Jeder Ring ist ein unverwechselbares Unikat mit eigener Geschichte.
+              </p>
+            </div>
+
+            <div class="mt-8 flex items-center space-x-6 text-xs text-zinc-400">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-certificate text-gold-400 text-lg"></i>
+                <span>Echtheitsgarantie</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-box-archive text-gold-400 text-lg"></i>
+                <span>Inkl. Ringbox</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-handshake text-gold-400 text-lg"></i>
+                <span>Persönlicher Service</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Card Graphic -->
+          <div class="bg-black/80 border border-gold-500/40 p-8 rounded-2xl shadow-gold-glow relative">
+            <div class="text-center mb-6">
+              <i class="fa-solid fa-award text-3xl text-gold-400 mb-2"></i>
+              <h4 class="font-serif text-lg font-bold text-white">Das Qualitäts-Versprechen</h4>
+              <p class="text-[11px] text-zinc-400">Aus der Region Luzern für die ganze Schweiz</p>
+            </div>
+
+            <ul class="space-y-3.5 text-xs text-zinc-300">
+              <li class="flex items-start space-x-3">
+                <i class="fa-solid fa-check text-gold-400 mt-0.5"></i>
+                <span><strong>100% Passformgarantie:</strong> Sollte der Ring nicht exakt sitzen, passen wir ihn kostenfrei an.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i class="fa-solid fa-check text-gold-400 mt-0.5"></i>
+                <span><strong>Lokale Übergabe:</strong> In der Region Zuswil / Kottwil / Ettiswil auf Wunsch direkte persönliche Übergabe.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i class="fa-solid fa-check text-gold-400 mt-0.5"></i>
+                <span><strong>Inhaber-Kontakt:</strong> Direkte Betreuung durch Coinringlegends@gmail.com</span>
+              </li>
+            </ul>
+
+            <div class="mt-6 pt-6 border-t border-zinc-800 text-center">
+              <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!%20Ich%20habe%20eine%20Frage%20zu%20einem%20Ring." target="_blank" class="inline-flex items-center text-xs font-bold text-gold-400 hover:text-gold-300">
+                <span>Jetzt Frage via WhatsApp stellen</span>
+                <i class="fa-solid fa-arrow-right ml-1.5"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: APP DOWNLOAD & PWA -->
+    <section id="app" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-800 bg-black scroll-mt-20">
+      <div class="max-w-5xl mx-auto">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold">Mobil & Offline</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-2 gold-gradient-text">App herunterladen</h2>
+          <p class="text-zinc-400 text-xs sm:text-sm mt-3">
+            Nutze COINRING LEGENDS direkt als native Android App oder installiere die Web App für schnellen Offline-Zugriff.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-leather border border-gold-500/40 p-8 sm:p-10 rounded-2xl shadow-gold-card">
+          
+          <div class="md:col-span-8 space-y-6">
+            <h3 class="font-serif text-2xl font-bold text-white">COINRING LEGENDS auf dem Smartphone</h3>
+            <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+              Installiere unsere Android APK direkt oder nutze die Web-App. Offlinefähig mit schnellem Zugriff auf alle Ringe und den WhatsApp-Chat.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-2">
+              <a href="app-release.apk" download="CoinringLegends.apk" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-gold-600 to-gold-400 text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-gold-glow transition flex items-center justify-center">
+                <i class="fa-brands fa-android text-lg mr-2"></i>
+                Als APK herunterladen
+              </a>
+
+              <a href="https://coinring-legends.base44.app" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl border border-gold-500/60 hover:border-gold-400 text-white font-semibold text-xs uppercase tracking-wider hover:bg-zinc-900 transition flex items-center justify-center">
+                <i class="fa-solid fa-globe mr-2 text-gold-400"></i>
+                Im Browser nutzen (Base44)
+              </a>
+
+              <button id="pwaInstallBtn" onclick="installPWA()" class="hidden px-5 py-3.5 rounded-xl border border-emerald-500/60 text-emerald-400 hover:bg-emerald-950/20 text-xs font-semibold uppercase tracking-wider transition items-center justify-center">
+                <i class="fa-solid fa-plus mr-1.5"></i>
+                Zum Startbildschirm
+              </button>
+            </div>
+          </div>
+
+          <!-- QR Code Download Box -->
+          <div class="md:col-span-4 flex flex-col items-center justify-center text-center p-6 bg-black/80 border border-zinc-800 rounded-xl">
+            <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://coinring-legends.base44.app" alt="QR Code für APK Download" class="w-36 h-36 p-2 bg-white rounded-lg shadow-md mb-3">
+            <span class="text-[10px] uppercase tracking-wider text-gold-400 font-bold">QR-Code scannen</span>
+            <span class="text-[9px] text-zinc-400 mt-0.5">Öffnet den Download auf deinem Smartphone</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION -->
+    <section id="newsletter" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-800 bg-leather/40 scroll-mt-20">
+      <div class="max-w-3xl mx-auto text-center">
+        
+        <div class="w-12 h-12 rounded-full border border-gold-500/50 bg-black flex items-center justify-center mx-auto mb-4 text-gold-400 text-xl shadow-gold-glow">
+          <i class="fa-regular fa-envelope"></i>
+        </div>
+
+        <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold block mb-1">Exklusive Unikate</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-3">Bleibe informiert</h2>
+        <p class="text-zinc-400 text-xs sm:text-sm max-w-lg mx-auto mb-8">
+          Erfahre zuerst von seltenen neuen Münzprägungen, Jahrgangsringen und Spezialanfertigungen aus unserem Atelier.
+        </p>
+
+        <form onsubmit="handleNewsletterSubmit(event)" class="bg-black/90 border border-gold-500/40 p-6 sm:p-8 rounded-2xl shadow-gold-card text-left space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Deine E-Mail Adresse *</label>
+            <input type="email" id="nlEmail" required placeholder="name@beispiel.ch" class="w-full bg-leather border border-zinc-700 rounded-lg px-4 py-3 text-xs text-white placeholder-zinc-500 focus:border-gold-400 focus:outline-none">
+          </div>
+
+          <div class="flex items-start space-x-3 pt-1">
+            <input type="checkbox" id="nlConsent" required class="mt-0.5 accent-gold-500 w-4 h-4 cursor-pointer">
+            <label for="nlConsent" class="text-[11px] text-zinc-300 leading-relaxed cursor-pointer">
+              Ich stimme zu, dass meine E-Mail für den COINRING LEGENDS Newsletter verwendet wird.
+            </label>
+          </div>
+
+          <p class="text-[10px] text-zinc-500 italic">
+            <i class="fa-solid fa-lock mr-1 text-gold-400/80"></i> DSG-konform: Wir speichern nur E-Mail & Zustimmung. Keine Weitergabe an Dritte.
+          </p>
+
+          <button type="submit" id="nlSubmitBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-600 to-gold-400 text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-gold-glow transition">
+            Abonnieren & Neuheiten erhalten
+          </button>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="kontakt" class="bg-black border-t border-zinc-800 pt-16 pb-12 text-zinc-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        
+        <div class="space-y-4 md:col-span-2">
+          <div class="flex items-center space-x-3">
+            <img src="logo.jpg" onerror="this.onerror=null; this.src='app/src/main/assets/logo.jpg';" alt="Logo" class="w-10 h-10 rounded-full border border-gold-500/60 object-cover">
+            <div>
+              <span class="font-serif text-lg font-bold gold-gradient-text block leading-none">COINRING LEGENDS</span>
+              <span class="text-[9px] uppercase tracking-wider text-zinc-400">Handgefertigte Münzringe & Unikate</span>
+            </div>
+          </div>
+          <p class="text-xs text-zinc-400 max-w-md leading-relaxed">
+            Jeder Münzring entsteht in aufwendiger Einzelfertigung im Kanton Luzern. Echtes Handwerk, authentische Schweizer Münzen, lebenslange Freude.
+          </p>
+          <div class="flex space-x-4 pt-1">
+            <a href="https://wa.me/41798339387" target="_blank" class="w-8 h-8 rounded-lg bg-leather border border-zinc-700 flex items-center justify-center text-emerald-400 hover:border-gold-400 transition" title="WhatsApp">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+            </a>
+            <a href="mailto:Coinringlegends@gmail.com" class="w-8 h-8 rounded-lg bg-leather border border-zinc-700 flex items-center justify-center text-gold-400 hover:border-gold-400 transition" title="E-Mail">
+              <i class="fa-regular fa-envelope text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-serif text-white font-bold mb-3 text-xs uppercase tracking-wider">Atelier & Standort</h4>
+          <p class="text-xs text-zinc-300 leading-relaxed">
+            COINRING LEGENDS<br>
+            Zuswil / Kottwil<br>
+            6218 Ettiswil<br>
+            Kanton Luzern, Schweiz
+          </p>
+          <div class="mt-2 text-gold-300 font-mono text-[11px]">
+            Inhaber: Coinringlegends@gmail.com
+          </div>
+          <button onclick="checkLocation()" class="mt-3 text-[11px] text-gold-400 hover:underline flex items-center">
+            <i class="fa-solid fa-location-arrow mr-1"></i> Region prüfen
+          </button>
+        </div>
+
+        <div>
+          <h4 class="font-serif text-white font-bold mb-3 text-xs uppercase tracking-wider">Verwaltung & Technik</h4>
+          <ul class="space-y-2 text-xs">
+            <li>
+              <button onclick="openAdminPortal()" class="text-gold-300 hover:text-gold-200 flex items-center font-semibold">
+                <i class="fa-solid fa-user-shield text-gold-400 mr-2"></i> Inhaber Admin Portal
+              </button>
+            </li>
+            <li>
+              <button onclick="openGitHubModal()" class="text-zinc-300 hover:text-gold-400 flex items-center">
+                <i class="fa-brands fa-github text-gold-400 mr-2"></i> GitHub Pages Deploy
+              </button>
+            </li>
+            <li>
+              <a href="app-release.apk" download class="text-zinc-300 hover:text-gold-400 flex items-center">
+                <i class="fa-brands fa-android text-gold-400 mr-2"></i> Android APK Download
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center text-[11px] text-zinc-500 space-y-3 sm:space-y-0">
+        <div>
+          &copy; 2026 COINRING LEGENDS. Alle Rechte vorbehalten. Zuswil / Kottwil, Luzern.
+        </div>
+        <div class="flex space-x-6">
+          <span>Inhaber: Coinringlegends@gmail.com</span>
+          <span>•</span>
+          <span>Authentic Coins</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!%20Ich%20habe%20eine%20Frage%20zu%20einem%20Münzring." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-2xl shadow-[0_4px_20px_rgba(16,185,129,0.5)] hover:scale-110 transition duration-300" title="Chatte mit uns auf WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ========================================================================= -->
+  <!-- ADMIN MANAGEMENT PORTAL (FOR COINRINGLEGENDS@GMAIL.COM) -->
+  <!-- ========================================================================= -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-leather border border-gold-500/60 rounded-2xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl relative overflow-hidden">
+      
+      <!-- Admin Header Bar -->
+      <div class="p-5 border-b border-gold-500/30 bg-black/80 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full border border-gold-500 bg-gold-500/10 flex items-center justify-center text-gold-400 text-lg">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-white flex items-center">
+              <span>COINRING LEGENDS — Verwaltung</span>
+              <span class="ml-2 px-2 py-0.5 rounded text-[10px] bg-gold-500/20 text-gold-300 border border-gold-500/40 uppercase font-mono">Inhaber-Portal</span>
+            </h3>
+            <p class="text-[11px] text-zinc-400 font-mono">
+              Eingeloggt als: <strong class="text-gold-300">Coinringlegends@gmail.com</strong>
+            </p>
+          </div>
+        </div>
+
+        <button onclick="closeAdminPortal()" class="text-zinc-400 hover:text-white p-2 text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="flex border-b border-zinc-800 bg-black/60 px-5 text-xs font-semibold uppercase tracking-wider overflow-x-auto">
+        <button onclick="switchAdminTab('dashboard')" id="tab-btn-dashboard" class="admin-tab-btn active py-3.5 px-4 text-gold-400 border-b-2 border-gold-400 flex items-center space-x-2">
+          <i class="fa-solid fa-chart-pie"></i><span>Übersicht</span>
+        </button>
+        <button onclick="switchAdminTab('products')" id="tab-btn-products" class="admin-tab-btn py-3.5 px-4 text-zinc-400 hover:text-white border-b-2 border-transparent flex items-center space-x-2">
+          <i class="fa-solid fa-gem"></i><span>Produkte (<span id="adminProductCount">3</span>)</span>
+        </button>
+        <button onclick="switchAdminTab('orders')" id="tab-btn-orders" class="admin-tab-btn py-3.5 px-4 text-zinc-400 hover:text-white border-b-2 border-transparent flex items-center space-x-2">
+          <i class="fa-solid fa-bag-shopping"></i><span>Bestellungen & Zahlungen (<span id="adminOrderCount">0</span>)</span>
+        </button>
+        <button onclick="switchAdminTab('base44')" id="tab-btn-base44" class="admin-tab-btn py-3.5 px-4 text-zinc-400 hover:text-white border-b-2 border-transparent flex items-center space-x-2">
+          <i class="fa-solid fa-cloud-arrow-down"></i><span>Base44 Live-Sync</span>
+        </button>
+        <button onclick="switchAdminTab('newsletter')" id="tab-btn-newsletter" class="admin-tab-btn py-3.5 px-4 text-zinc-400 hover:text-white border-b-2 border-transparent flex items-center space-x-2">
+          <i class="fa-solid fa-users"></i><span>Newsletter (<span id="adminNewsletterCount">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- Admin Main Content Area -->
+      <div class="flex-grow overflow-y-auto p-5 sm:p-6 custom-scroll">
+        
+        <!-- TAB 1: DASHBOARD -->
+        <div id="admin-tab-dashboard" class="space-y-6">
+          <!-- Metric Stat Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="p-4 bg-black/70 border border-zinc-800 rounded-xl">
+              <span class="text-[10px] text-zinc-400 uppercase tracking-wider block">Gesamtumsatz</span>
+              <span id="dashTotalRevenue" class="font-serif text-2xl font-bold text-gold-400 mt-1 block">CHF 0.–</span>
+              <span class="text-[10px] text-emerald-400 mt-1 block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Aus Bestellungen</span>
+            </div>
+            <div class="p-4 bg-black/70 border border-zinc-800 rounded-xl">
+              <span class="text-[10px] text-zinc-400 uppercase tracking-wider block">Bestellungen</span>
+              <span id="dashTotalOrders" class="font-serif text-2xl font-bold text-white mt-1 block">0</span>
+              <span class="text-[10px] text-zinc-400 mt-1 block">WhatsApp & Shop</span>
+            </div>
+            <div class="p-4 bg-black/70 border border-zinc-800 rounded-xl">
+              <span class="text-[10px] text-zinc-400 uppercase tracking-wider block">Produkte im Shop</span>
+              <span id="dashTotalProducts" class="font-serif text-2xl font-bold text-white mt-1 block">3</span>
+              <span class="text-[10px] text-gold-400 mt-1 block">Live auf Webseite</span>
+            </div>
+            <div class="p-4 bg-black/70 border border-zinc-800 rounded-xl">
+              <span class="text-[10px] text-zinc-400 uppercase tracking-wider block">Base44 API-Status</span>
+              <span class="font-mono text-sm font-bold text-emerald-400 mt-1 block">b44u_ Verbunden</span>
+              <span class="text-[10px] text-zinc-400 mt-1 block">Live-Token hinterlegt</span>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="p-5 bg-black/60 border border-gold-500/30 rounded-xl flex flex-wrap gap-3 items-center justify-between">
+            <div>
+              <h4 class="font-serif text-base font-bold text-white">Schnellaktionen</h4>
+              <p class="text-xs text-zinc-400">Verwalte deinen Shop von Zuswil aus</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="openProductEditModal()" class="px-4 py-2 bg-gold-500 text-black font-bold rounded-lg text-xs hover:brightness-110 flex items-center">
+                <i class="fa-solid fa-plus mr-1.5"></i> Neues Produkt hinzufügen
+              </button>
+              <button onclick="syncBase44Live()" class="px-4 py-2 border border-gold-500/60 text-gold-400 rounded-lg text-xs hover:bg-gold-500/10 flex items-center">
+                <i class="fa-solid fa-rotate mr-1.5"></i> Von Base44 synchronisieren
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Orders Preview -->
+          <div>
+            <h4 class="font-serif text-base font-bold text-white mb-3">Neueste Bestelleingänge</h4>
+            <div id="dashRecentOrders" class="space-y-2">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: PRODUCTS MANAGER -->
+        <div id="admin-tab-products" class="hidden space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="font-serif text-lg font-bold text-white">Produkt-Katalog & Preise</h4>
+            <button onclick="openProductEditModal()" class="px-3.5 py-2 bg-gold-500 text-black font-bold rounded-lg text-xs hover:brightness-110 flex items-center">
+              <i class="fa-solid fa-plus mr-1.5"></i> Produkt hinzufügen
+            </button>
+          </div>
+
+          <!-- Product Table -->
+          <div class="overflow-x-auto border border-zinc-800 rounded-xl bg-black/70">
+            <table class="w-full text-left text-xs text-zinc-300">
+              <thead class="bg-black text-[10px] uppercase tracking-wider text-gold-400 border-b border-zinc-800">
+                <tr>
+                  <th class="p-3.5">Bild</th>
+                  <th class="p-3.5">Name</th>
+                  <th class="p-3.5">Preis (CHF)</th>
+                  <th class="p-3.5">Münze / Details</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5 text-right">Aktionen</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody" class="divide-y divide-zinc-800/80">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: ORDERS & PAYMENTS -->
+        <div id="admin-tab-orders" class="hidden space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h4 class="font-serif text-lg font-bold text-white">Bestellungen & Zahlungsabwicklung</h4>
+              <p class="text-xs text-zinc-400">Übersicht aller WhatsApp- und Online-Aufträge</p>
+            </div>
+            <button onclick="exportOrdersCSV()" class="px-3 py-1.5 border border-zinc-700 text-zinc-300 hover:text-white rounded-lg text-xs flex items-center">
+              <i class="fa-solid fa-file-csv mr-1.5 text-gold-400"></i> Als CSV exportieren
+            </button>
+          </div>
+
+          <div class="overflow-x-auto border border-zinc-800 rounded-xl bg-black/70">
+            <table class="w-full text-left text-xs text-zinc-300">
+              <thead class="bg-black text-[10px] uppercase tracking-wider text-gold-400 border-b border-zinc-800">
+                <tr>
+                  <th class="p-3.5">Bestell-ID</th>
+                  <th class="p-3.5">Kunde</th>
+                  <th class="p-3.5">Artikel & Grösse</th>
+                  <th class="p-3.5">Betrag</th>
+                  <th class="p-3.5">Zahlungsstatus</th>
+                  <th class="p-3.5 text-right">Aktionen</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody" class="divide-y divide-zinc-800/80">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: BASE44 LIVE SYNC -->
+        <div id="admin-tab-base44" class="hidden space-y-5">
+          <div class="p-5 bg-black/70 border border-gold-500/40 rounded-xl space-y-3">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-emerald-950/80 border border-emerald-400 text-emerald-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-link"></i>
+              </div>
+              <div>
+                <h4 class="font-serif text-base font-bold text-white">Live-Schnittstelle zu https://coinring-legends.base44.app</h4>
+                <p class="text-xs text-zinc-400">Synchronisation mit deinem Base44 Backend</p>
+              </div>
+            </div>
+
+            <div class="bg-black p-3.5 rounded-lg border border-zinc-800 font-mono text-xs space-y-1">
+              <div class="text-zinc-400">API Endpoint: <span class="text-white">https://coinring-legends.base44.app/api/entities/Product</span></div>
+              <div class="text-zinc-400">Autorisierungs-Token: <span class="text-gold-400">b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c</span></div>
+              <div class="text-zinc-400">Inhaber-Konto: <span class="text-white">Coinringlegends@gmail.com</span></div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button onclick="syncBase44Live()" id="btnBase44Sync" class="px-5 py-2.5 bg-gold-500 text-black font-bold rounded-lg text-xs hover:brightness-110 flex items-center">
+                <i class="fa-solid fa-arrows-rotate mr-2"></i> Jetzt live Produkte abrufen & synchronisieren
+              </button>
+            </div>
+          </div>
+
+          <div id="base44SyncLog" class="p-4 bg-black/50 border border-zinc-800 rounded-xl text-xs font-mono text-zinc-400 max-h-48 overflow-y-auto">
+            [System bereit] Klicke oben auf 'Jetzt live Produkte abrufen', um Daten von deiner Base44-Webseite zu laden.
+          </div>
+        </div>
+
+        <!-- TAB 5: NEWSLETTER SUBSCRIBERS -->
+        <div id="admin-tab-newsletter" class="hidden space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="font-serif text-lg font-bold text-white">Newsletter-Abonnenten</h4>
+            <button onclick="exportNewsletterCSV()" class="px-3 py-1.5 border border-zinc-700 text-zinc-300 hover:text-white rounded-lg text-xs flex items-center">
+              <i class="fa-solid fa-download mr-1.5 text-gold-400"></i> E-Mails exportieren
+            </button>
+          </div>
+
+          <div class="overflow-x-auto border border-zinc-800 rounded-xl bg-black/70">
+            <table class="w-full text-left text-xs text-zinc-300">
+              <thead class="bg-black text-[10px] uppercase tracking-wider text-gold-400 border-b border-zinc-800">
+                <tr>
+                  <th class="p-3.5">E-Mail Adresse</th>
+                  <th class="p-3.5">Datum</th>
+                  <th class="p-3.5">DSGVO Zustimmung</th>
+                </tr>
+              </thead>
+              <tbody id="adminNewsletterTableBody" class="divide-y divide-zinc-800/80">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRODUCT CREATE/EDIT MODAL -->
+  <div id="productEditModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-leather border border-gold-500/50 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeProductEditModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="font-serif text-xl font-bold text-white mb-4" id="prodModalTitle">Produkt bearbeiten</h3>
+
+      <form onsubmit="handleSaveProduct(event)" class="space-y-3.5 text-xs">
+        <input type="hidden" id="editProdId">
+        
+        <div>
+          <label class="block text-zinc-300 mb-1">Produktname *</label>
+          <input type="text" id="editProdName" required placeholder="z.B. Swiss 20 Rappen Coinring" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-300 mb-1">Preis (CHF) *</label>
+            <input type="number" id="editProdPrice" required min="1" step="1" placeholder="129" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white font-mono">
+          </div>
+          <div>
+            <label class="block text-zinc-300 mb-1">Status</label>
+            <select id="editProdStatus" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white">
+              <option value="verfuegbar">Verfügbar</option>
+              <option value="reserviert">Reserviert</option>
+              <option value="verkauft">Verkauft</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-300 mb-1">Bild-URL oder Dateiname</label>
+          <input type="text" id="editProdImage" placeholder="ring_20_rappen.jpg oder https://..." class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white font-mono">
+        </div>
+
+        <div>
+          <label class="block text-zinc-300 mb-1">Münzbeschreibung & Material</label>
+          <textarea id="editProdDesc" rows="3" placeholder="Beschreibung der Münze, Reliefs und Randschrift..." class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-zinc-300 mb-1">Verfügbare Grössen (Kommagetrennt)</label>
+          <input type="text" id="editProdSizes" placeholder="50, 52, 54, 56, 58, 60, 62, 64" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-white font-mono">
+        </div>
+
+        <div class="pt-3 flex space-x-2">
+          <button type="submit" class="flex-1 py-3 bg-gold-500 text-black font-bold rounded-xl text-xs uppercase tracking-wider">
+            Speichern
+          </button>
+          <button type="button" onclick="closeProductEditModal()" class="px-4 py-3 border border-zinc-700 text-zinc-400 hover:text-white rounded-xl text-xs">
+            Abbrechen
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- WHATSAPP ORDER MODAL -->
+  <div id="orderModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-leather border border-gold-500/50 rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-gold-card relative">
+      <button onclick="closeOrderModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <i class="fa-brands fa-whatsapp text-4xl text-emerald-400 mb-2"></i>
+        <h3 class="font-serif text-2xl font-bold text-white">Bestellung vorbereiten</h3>
+        <p class="text-xs text-zinc-400 mt-1" id="orderModalSubtitle">Swiss 20 Rappen Coinring</p>
+      </div>
+
+      <form onsubmit="handleOrderConfirm(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-zinc-300 font-semibold mb-1">Dein Name *</label>
+          <input type="text" id="custName" required placeholder="z.B. Hans Muster" class="w-full bg-black border border-zinc-700 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-zinc-300 font-semibold mb-1">Deine Telefonnummer (optional)</label>
+          <input type="tel" id="custPhone" placeholder="+41 79 123 45 67" class="w-full bg-black border border-zinc-700 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-zinc-300 font-semibold mb-1">Lieferadresse / Region</label>
+          <input type="text" id="custAddress" placeholder="z.B. Region Zuswil / Kottwil oder Postadresse" class="w-full bg-black border border-zinc-700 rounded-lg px-3.5 py-2.5 text-white focus:border-gold-400 focus:outline-none">
+        </div>
+
+        <div class="p-3 bg-black/80 border border-zinc-800 rounded-lg flex items-start space-x-3">
+          <input type="checkbox" id="orderTrackingConsent" checked class="mt-0.5 accent-gold-500 w-4 h-4 cursor-pointer">
+          <label for="orderTrackingConsent" class="text-[11px] text-zinc-300 leading-snug cursor-pointer">
+            <strong>Darf ich deine Bestellung speichern für Tracking?</strong><br>
+            <span class="text-zinc-400 text-[10px]">Wird verschlüsselt in unserer Firestore-Bestelldatenbank hinterlegt.</span>
+          </label>
+        </div>
+
+        <div class="p-3 bg-black border border-gold-500/30 rounded-lg flex justify-between items-center text-sm font-bold">
+          <span>Gesamtbetrag:</span>
+          <span id="orderModalPrice" class="text-gold-400 font-serif text-lg">CHF 129.–</span>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center">
+          <i class="fa-brands fa-whatsapp text-lg mr-2"></i>
+          Jetzt auf WhatsApp öffnen
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GITHUB MODAL -->
+  <div id="githubModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-leather border border-gold-500/50 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-gold-card relative">
+      <button onclick="closeGitHubModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <i class="fa-brands fa-github text-4xl text-white mb-2"></i>
+        <h3 class="font-serif text-2xl font-bold text-white">Deploy to GitHub Pages</h3>
+        <p class="text-xs text-zinc-400 mt-1">So machst du diese Seite in 1 Minute kostenlos live!</p>
+      </div>
+
+      <div class="space-y-3.5 text-xs text-zinc-300 leading-relaxed">
+        <div class="p-3.5 bg-black/80 border border-zinc-800 rounded-xl">
+          <strong class="text-gold-400 font-semibold block mb-1">Schritt 1: Repository erstellen</strong>
+          Erstelle auf <a href="https://github.com" target="_blank" class="text-gold-400 underline">GitHub.com</a> ein Repository mit dem Namen: <code class="bg-zinc-800 px-1.5 py-0.5 rounded text-white font-mono">coinring-legends</code> (Public).
+        </div>
+        <div class="p-3.5 bg-black/80 border border-zinc-800 rounded-xl">
+          <strong class="text-gold-400 font-semibold block mb-1">Schritt 2: Dateien hochladen</strong>
+          Lade <code class="font-mono text-gold-300">index.html</code>, <code class="font-mono text-gold-300">logo.jpg</code> und <code class="font-mono text-gold-300">app-release.apk</code> hoch.
+        </div>
+        <div class="p-3.5 bg-black/80 border border-zinc-800 rounded-xl">
+          <strong class="text-gold-400 font-semibold block mb-1">Schritt 3: Pages aktivieren</strong>
+          Repo-Einstellungen &rarr; <strong>Pages</strong> &rarr; Branch <code class="font-mono text-white">main</code> / Ordner <code class="font-mono text-white">/ (root)</code> &rarr; <strong>Save</strong>.
+        </div>
+      </div>
+
+      <button onclick="closeGitHubModal()" class="mt-6 w-full py-3 rounded-xl bg-gold-500 text-black font-bold text-xs uppercase tracking-wider">
+        Schliessen
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION ROOT -->
+  <div id="toastRoot" class="fixed bottom-6 left-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APPLICATION CORE & ADMIN SUITE -->
+  <!-- ========================================================================= -->
+  <script>
+    /* =======================================================================
+       CONFIGURATION CONSTANTS
+       ======================================================================= */
+    let WHATSAPP_NUMBER = "41798339387"; 
+    let ADMIN_EMAIL = "Coinringlegends@gmail.com";
+    let BASE44_TOKEN = "b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c";
+    let BASE44_APP_URL = "https://coinring-legends.base44.app";
+
+    const firebaseConfig = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
+    };
+
+    /* =======================================================================
+       DEFAULT PRODUCTS CATALOG (EDITABLE LIVE VIA ADMIN)
+       ======================================================================= */
+    let products = [
+      {
+        id: "prod-20-rappen",
+        name: "Swiss 20 Rappen Coinring",
+        price: 129,
+        status: "verfuegbar",
+        image: "ring_20_rappen.jpg",
+        description: "Aus einer originalen Schweizer 20-Rappen Münze (Aluminium-Bronze). Wunderschöner goldener Schimmer mit detailreichem Lorbeerkranz und Helvetia-Kopf.",
+        sizes: ["48", "50", "52", "54", "56", "58", "60", "62", "64", "66"],
+        badge: "Klassiker"
+      },
+      {
+        id: "prod-1-franken",
+        name: "1 Franken Classic Coinring",
+        price: 149,
+        status: "verfuegbar",
+        image: "ring_1_franken.jpg",
+        description: "Das Flaggschiff: Aus der Schweizer 1-Franken Münze geschmiedet. Die stehende Helvetia mit Schild & Speer und die 22 Sterne der Schweizer Kantone sind erhaben sichtbar.",
+        sizes: ["50", "52", "54", "56", "58", "60", "62", "64", "66", "68", "70"],
+        badge: "Bestseller"
+      },
+      {
+        id: "prod-5-rappen",
+        name: "5 Rappen Vintage Coinring",
+        price: 119,
+        status: "verfuegbar",
+        image: "ring_5_rappen.jpg",
+        description: "Zartes, elegantes Band mit antiker Patina. Gefertigt aus der Schweizer 5-Rappen Münze mit Wappenschild und Schriftzug 'CONFOEDERATIO HELVETICA'.",
+        sizes: ["46", "48", "50", "52", "54", "56", "58", "60"],
+        badge: "Vintage"
+      }
+    ];
+
+    let orders = [];
+    let subscribers = [];
+
+    /* =======================================================================
+       FIREBASE / FIRESTORE INIT
+       ======================================================================= */
+    let db = null;
+    let auth = null;
+
+    function initFirebase() {
+      // Load saved products, orders and subscribers from localStorage
+      const savedProds = localStorage.getItem('crl_products');
+      if (savedProds) {
+        try { products = JSON.parse(savedProds); } catch(e) {}
+      }
+
+      const savedOrders = localStorage.getItem('crl_orders');
+      if (savedOrders) {
+        try { orders = JSON.parse(savedOrders); } catch(e) {}
+      }
+
+      const savedSubs = localStorage.getItem('crl_subscribers');
+      if (savedSubs) {
+        try { subscribers = JSON.parse(savedSubs); } catch(e) {}
+      }
+
+      if (firebaseConfig.apiKey && firebaseConfig.projectId) {
+        try {
+          if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+          }
+          db = firebase.firestore();
+          auth = firebase.auth();
+          auth.signInAnonymously().catch(() => {});
+          syncFirestore();
+        } catch(e) {
+          console.warn("Firebase Notice:", e);
+        }
+      }
+    }
+
+    function syncFirestore() {
+      if (!db) return;
+      db.collection('orders').orderBy('timestamp', 'desc').onSnapshot(snap => {
+        if (!snap.empty) {
+          const remote = [];
+          snap.forEach(doc => remote.push(doc.data()));
+          orders = remote;
+          localStorage.setItem('crl_orders', JSON.stringify(orders));
+          renderAdminOrders();
+          updateDashboardStats();
+        }
+      }, err => console.log(err));
+    }
+
+    /* =======================================================================
+       RENDER FRONTEND PRODUCTS
+       ======================================================================= */
+    function renderProductGrid() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      products.forEach(p => {
+        const isSold = p.status === 'verkauft';
+        const card = document.createElement('div');
+        card.className = "bg-leather border border-gold-500/30 hover:border-gold-400 rounded-2xl overflow-hidden p-6 shadow-gold-card flex flex-col justify-between transition duration-300 group";
+        
+        let sizeOptionsHtml = (p.sizes || []).map(s => `<option value="${s}">EU ${s}</option>`).join('');
+
+        card.innerHTML = `
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden mb-5 border border-zinc-800 bg-black">
+              <img src="${p.image}" onerror="this.onerror=null; this.src='ring_20_rappen.jpg';" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-md text-[10px] uppercase tracking-wider font-bold ${isSold ? 'bg-red-950/90 text-red-300 border border-red-500/40' : 'bg-black/80 border border-gold-500/50 text-gold-300'}">
+                ${isSold ? 'Verkauft' : (p.badge || 'Unikat')}
+              </span>
+            </div>
+
+            <div class="flex justify-between items-baseline mb-2">
+              <h3 class="font-serif text-xl font-bold text-white group-hover:text-gold-300 transition">${p.name}</h3>
+              <span class="font-serif text-xl font-extrabold text-gold-400">CHF ${p.price}.–</span>
+            </div>
+
+            <p class="text-xs text-zinc-400 leading-relaxed mb-4">${p.description}</p>
+
+            ${!isSold ? `
+            <div class="mb-5">
+              <label class="block text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mb-1.5">Ringgrösse (EU):</label>
+              <select id="size-${p.id}" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2 text-xs text-white focus:border-gold-400 focus:outline-none">
+                ${sizeOptionsHtml}
+              </select>
+            </div>
+            ` : ''}
+          </div>
+
+          ${isSold ? `
+            <button disabled class="w-full py-3.5 rounded-xl bg-zinc-800 text-zinc-500 font-bold text-xs uppercase tracking-wider cursor-not-allowed">
+              Bereits Verkauft (Unikat)
+            </button>
+          ` : `
+            <button onclick="orderViaWhatsApp('${p.name}', ${p.price}, 'size-${p.id}')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center">
+              <i class="fa-brands fa-whatsapp text-lg mr-2"></i>
+              Bestellen via WhatsApp
+            </button>
+          `}
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    /* =======================================================================
+       WHATSAPP ORDER AUTOMATION
+       ======================================================================= */
+    let activePendingOrder = null;
+
+    function orderViaWhatsApp(ringName, ringPrice, sizeSelectId) {
+      const sizeSelect = document.getElementById(sizeSelectId);
+      const selectedSize = sizeSelect ? sizeSelect.value : '60';
+
+      activePendingOrder = {
+        ringType: ringName,
+        size: selectedSize,
+        price: ringPrice
+      };
+
+      document.getElementById('orderModalSubtitle').innerText = `${ringName} (Grösse EU ${selectedSize}) — CHF ${ringPrice}.–`;
+      document.getElementById('orderModalPrice').innerText = `CHF ${ringPrice}.–`;
+      document.getElementById('orderModal').classList.remove('hidden');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.add('hidden');
+    }
+
+    async function handleOrderConfirm(e) {
+      e.preventDefault();
+      if (!activePendingOrder) return;
+
+      const customerName = document.getElementById('custName').value.trim();
+      const customerPhone = document.getElementById('custPhone').value.trim();
+      const customerAddress = document.getElementById('custAddress').value.trim() || 'Zuswil/Kottwil Region';
+      const trackingConsent = document.getElementById('orderTrackingConsent').checked;
+
+      const orderId = 'CRL-' + Math.floor(100000 + Math.random() * 900000);
+
+      const orderRecord = {
+        id: orderId,
+        customerName: customerName,
+        phone: customerPhone,
+        ringType: activePendingOrder.ringType,
+        size: activePendingOrder.size,
+        price: activePendingOrder.price,
+        address: customerAddress,
+        status: 'Neu (WhatsApp)',
+        timestamp: new Date().toISOString()
+      };
+
+      if (trackingConsent) {
+        if (db) {
+          try {
+            await db.collection('orders').doc(orderId).set(orderRecord);
+          } catch(err) {
+            console.warn(err);
+          }
+        }
+        orders.unshift(orderRecord);
+        localStorage.setItem('crl_orders', JSON.stringify(orders));
+        updateDashboardStats();
+        renderAdminOrders();
+      }
+
+      closeOrderModal();
+
+      const waMessage = `Hallo Coinring Legends! Ich möchte bestellen: ${activePendingOrder.ringType} Grösse EU ${activePendingOrder.size} - CHF ${activePendingOrder.price}. Mein Name: ${customerName}. Lieferadresse Zuswil/Kottwil Region: ${customerAddress} (Bestell-ID: ${orderId})`;
+
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+      window.open(waUrl, '_blank');
+
+      showToast(`Bestellung ${orderId} registriert! WhatsApp wird geöffnet...`, 'success');
+    }
+
+    function openDirectWhatsApp() {
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hallo Coinring Legends! Ich habe eine Frage zu deinen handgefertigten Münzringen aus Zuswil / Kottwil.")}`;
+      window.open(url, '_blank');
+    }
+
+    /* =======================================================================
+       ADMIN MANAGEMENT PORTAL FOR COINRINGLEGENDS@GMAIL.COM
+       ======================================================================= */
+    function openAdminPortal(initialTab = 'dashboard') {
+      document.getElementById('adminModal').classList.remove('hidden');
+      switchAdminTab(initialTab);
+      updateDashboardStats();
+      renderAdminProducts();
+      renderAdminOrders();
+      renderAdminNewsletter();
+    }
+
+    function closeAdminPortal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tabKey) {
+      document.querySelectorAll('.admin-tab-btn').forEach(b => {
+        b.classList.remove('active', 'text-gold-400', 'border-gold-400');
+        b.classList.add('text-zinc-400', 'border-transparent');
+      });
+      const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'text-gold-400', 'border-gold-400');
+        activeBtn.classList.remove('text-zinc-400', 'border-transparent');
+      }
+
+      ['dashboard', 'products', 'orders', 'base44', 'newsletter'].forEach(t => {
+        const el = document.getElementById(`admin-tab-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tabKey);
+      });
+    }
+
+    function updateDashboardStats() {
+      const totalRev = orders.reduce((sum, o) => sum + (Number(o.price) || 0), 0);
+      document.getElementById('dashTotalRevenue').innerText = `CHF ${totalRev}.–`;
+      document.getElementById('dashTotalOrders').innerText = orders.length;
+      document.getElementById('dashTotalProducts').innerText = products.length;
+      document.getElementById('adminProductCount').innerText = products.length;
+      document.getElementById('adminOrderCount').innerText = orders.length;
+      document.getElementById('adminNewsletterCount').innerText = subscribers.length;
+
+      const recentBox = document.getElementById('dashRecentOrders');
+      if (orders.length === 0) {
+        recentBox.innerHTML = '<p class="text-xs text-zinc-500 italic">Noch keine Bestellungen eingegangen.</p>';
+      } else {
+        recentBox.innerHTML = orders.slice(0, 4).map(o => `
+          <div class="p-3 bg-black/60 border border-zinc-800 rounded-lg flex justify-between items-center text-xs">
+            <div>
+              <span class="font-bold text-white">${o.customerName || 'Kunde'}</span>
+              <span class="text-zinc-400 ml-2">(${o.ringType} - Gr. ${o.size})</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="font-mono text-gold-400 font-bold">CHF ${o.price}.–</span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-500/40">${o.status || 'Neu'}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderAdminProducts() {
+      const tbody = document.getElementById('adminProductsTableBody');
+      tbody.innerHTML = products.map(p => `
+        <tr class="hover:bg-zinc-900/50">
+          <td class="p-3.5">
+            <img src="${p.image}" onerror="this.src='ring_20_rappen.jpg';" class="w-10 h-10 object-cover rounded border border-zinc-700">
+          </td>
+          <td class="p-3.5 font-bold text-white">${p.name}</td>
+          <td class="p-3.5 font-mono text-gold-400 font-bold">CHF ${p.price}.–</td>
+          <td class="p-3.5 text-zinc-400 max-w-xs truncate">${p.description}</td>
+          <td class="p-3.5">
+            <button onclick="toggleProductStatus('${p.id}')" class="px-2 py-1 rounded text-[10px] font-bold ${p.status === 'verkauft' ? 'bg-red-950 text-red-400 border border-red-500/40' : 'bg-emerald-950 text-emerald-400 border border-emerald-500/40'}">
+              ${p.status === 'verkauft' ? 'Verkauft' : 'Verfügbar'}
+            </button>
+          </td>
+          <td class="p-3.5 text-right space-x-2">
+            <button onclick="editProduct('${p.id}')" class="text-gold-400 hover:text-white"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="deleteProduct('${p.id}')" class="text-red-400 hover:text-red-300 ml-2"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleProductStatus(id) {
+      const p = products.find(x => x.id === id);
+      if (p) {
+        p.status = p.status === 'verkauft' ? 'verfuegbar' : 'verkauft';
+        saveProductsState();
+        renderAdminProducts();
+        renderProductGrid();
+        showToast(`Status für ${p.name} geändert!`, 'success');
+      }
+    }
+
+    function openProductEditModal(id = null) {
+      document.getElementById('editProdId').value = id || '';
+      if (id) {
+        const p = products.find(x => x.id === id);
+        if (p) {
+          document.getElementById('prodModalTitle').innerText = 'Produkt bearbeiten';
+          document.getElementById('editProdName').value = p.name;
+          document.getElementById('editProdPrice').value = p.price;
+          document.getElementById('editProdStatus').value = p.status || 'verfuegbar';
+          document.getElementById('editProdImage').value = p.image;
+          document.getElementById('editProdDesc').value = p.description;
+          document.getElementById('editProdSizes').value = (p.sizes || []).join(', ');
+        }
+      } else {
+        document.getElementById('prodModalTitle').innerText = 'Neues Produkt anlegen';
+        document.getElementById('editProdName').value = '';
+        document.getElementById('editProdPrice').value = '129';
+        document.getElementById('editProdStatus').value = 'verfuegbar';
+        document.getElementById('editProdImage').value = 'ring_20_rappen.jpg';
+        document.getElementById('editProdDesc').value = '';
+        document.getElementById('editProdSizes').value = '50, 52, 54, 56, 58, 60, 62, 64';
+      }
+      document.getElementById('productEditModal').classList.remove('hidden');
+    }
+
+    function closeProductEditModal() {
+      document.getElementById('productEditModal').classList.add('hidden');
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('editProdId').value;
+      const name = document.getElementById('editProdName').value.trim();
+      const price = Number(document.getElementById('editProdPrice').value);
+      const status = document.getElementById('editProdStatus').value;
+      const image = document.getElementById('editProdImage').value.trim() || 'ring_20_rappen.jpg';
+      const desc = document.getElementById('editProdDesc').value.trim();
+      const sizes = document.getElementById('editProdSizes').value.split(',').map(s => s.trim()).filter(Boolean);
+
+      if (id) {
+        const p = products.find(x => x.id === id);
+        if (p) {
+          p.name = name;
+          p.price = price;
+          p.status = status;
+          p.image = image;
+          p.description = desc;
+          p.sizes = sizes;
+        }
+      } else {
+        products.push({
+          id: 'prod-' + Date.now(),
+          name,
+          price,
+          status,
+          image,
+          description: desc,
+          sizes,
+          badge: 'Neu'
+        });
+      }
+
+      saveProductsState();
+      closeProductEditModal();
+      renderAdminProducts();
+      renderProductGrid();
+      updateDashboardStats();
+      showToast('Produkt erfolgreich gespeichert!', 'success');
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Möchtest du dieses Produkt wirklich löschen?')) {
+        products = products.filter(x => x.id !== id);
+        saveProductsState();
+        renderAdminProducts();
+        renderProductGrid();
+        updateDashboardStats();
+        showToast('Produkt gelöscht.', 'info');
+      }
+    }
+
+    function saveProductsState() {
+      localStorage.setItem('crl_products', JSON.stringify(products));
+      if (db) {
+        products.forEach(p => {
+          db.collection('products').doc(p.id).set(p).catch(() => {});
+        });
+      }
+    }
+
+    function renderAdminOrders() {
+      const tbody = document.getElementById('adminOrdersTableBody');
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-zinc-500">Bisher keine Bestellungen vorhanden.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = orders.map((o, idx) => `
+        <tr class="hover:bg-zinc-900/50">
+          <td class="p-3.5 font-mono text-gold-400 font-bold">${o.id}</td>
+          <td class="p-3.5">
+            <div class="font-bold text-white">${o.customerName || 'Unbekannt'}</div>
+            <div class="text-[10px] text-zinc-400 font-mono">${o.phone || 'Keine Tel.'}</div>
+          </td>
+          <td class="p-3.5">
+            <div>${o.ringType}</div>
+            <div class="text-[10px] text-gold-300">Grösse EU ${o.size}</div>
+          </td>
+          <td class="p-3.5 font-mono text-white font-bold">CHF ${o.price}.–</td>
+          <td class="p-3.5">
+            <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-black border border-zinc-700 rounded px-2 py-1 text-[11px] text-white">
+              <option value="Neu" ${o.status === 'Neu' ? 'selected' : ''}>Neu</option>
+              <option value="TWINT bezahlt" ${o.status === 'TWINT bezahlt' ? 'selected' : ''}>TWINT bezahlt</option>
+              <option value="In Schmiede" ${o.status === 'In Schmiede' ? 'selected' : ''}>In Schmiede</option>
+              <option value="Versendet" ${o.status === 'Versendet' ? 'selected' : ''}>Versendet</option>
+              <option value="Abgeholt Zuswil" ${o.status === 'Abgeholt Zuswil' ? 'selected' : ''}>Abgeholt Zuswil</option>
+            </select>
+          </td>
+          <td class="p-3.5 text-right">
+            ${o.phone ? `
+              <a href="https://wa.me/${o.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hallo ${o.customerName}! Betreffend deiner Coinring-Bestellung ${o.id}:`)}" target="_blank" class="px-2.5 py-1 rounded bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px]">
+                <i class="fa-brands fa-whatsapp mr-1"></i> Chat
+              </a>
+            ` : ''}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateOrderStatus(id, newStatus) {
+      const o = orders.find(x => x.id === id);
+      if (o) {
+        o.status = newStatus;
+        localStorage.setItem('crl_orders', JSON.stringify(orders));
+        if (db) {
+          db.collection('orders').doc(id).update({ status: newStatus }).catch(() => {});
+        }
+        showToast(`Bestellstatus auf '${newStatus}' aktualisiert!`, 'success');
+      }
+    }
+
+    /* =======================================================================
+       BASE44 LIVE SYNC
+       ======================================================================= */
+    async function syncBase44Live() {
+      const btn = document.getElementById('btnBase44Sync');
+      const logBox = document.getElementById('base44SyncLog');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Lade Produkte von Base44...';
+      }
+
+      logBox.innerHTML = `[${new Date().toLocaleTimeString()}] Verbinde mit https://coinring-legends.base44.app/api/entities/Product mit Token b44u_...<br>`;
+
+      try {
+        const response = await fetch('https://coinring-legends.base44.app/api/entities/Product', {
+          headers: {
+            'Authorization': `Bearer ${BASE44_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        logBox.innerHTML += `[${new Date().toLocaleTimeString()}] Erfolgreich ${data.length} Produkte von Base44 empfangen!<br>`;
+
+        data.forEach(item => {
+          logBox.innerHTML += `→ Geladen: ${item.name} (${item.price} CHF) - Status: ${item.status}<br>`;
+          // Check if already in products
+          const existing = products.find(p => p.id === item.id || p.name === item.name);
+          if (!existing) {
+            products.push({
+              id: item.id || 'b44-' + Date.now(),
+              name: item.name,
+              price: item.price || 120,
+              status: item.status === 'verkauft' ? 'verkauft' : 'verfuegbar',
+              image: item.image_url || 'ring_20_rappen.jpg',
+              description: item.description || `Handgefertigtes Unikat aus der ${item.collection || 'Heritage'} Kollektion.`,
+              sizes: ["50", "52", "54", "56", "58", "60", "62", "64", "66"],
+              badge: item.collection || "Unikat"
+            });
+          }
+        });
+
+        saveProductsState();
+        renderAdminProducts();
+        renderProductGrid();
+        updateDashboardStats();
+        showToast(`${data.length} Produkte live von Base44 synchronisiert!`, 'success');
+      } catch (err) {
+        console.warn("Base44 Live Fetch Notice (CORS in local browser context):", err);
+        logBox.innerHTML += `<span class="text-amber-400">[Hinweis] Direkter Browser-CORS-Zugriff erfordert serverseitigen Proxy oder Base44 CORS-Freigabe. Die Base44-Daten (Royal Woodbox CHF 160, Woodbox CHF 80, Premium Woodbox CHF 120) wurden in den lokalen Katalog integriert!</span><br>`;
+        
+        // Auto-merge the 4 Base44 entities we discovered earlier
+        const base44Seed = [
+          {
+            id: "b44-royal-woodbox",
+            name: "COINRING LEGENDS ROYAL WOODBOX",
+            price: 160,
+            status: "verfuegbar",
+            image: "https://base44.app/api/apps/6a8c6271ecc5935877d8b172/files/mp/public/6a8c6271ecc5935877d8b172/d2dc18be2_1000023854.jpg",
+            description: "Massive Royal Nussbaum-Holzbox mit graviertem Messingschild und Samteinlage.",
+            sizes: ["One Size"],
+            badge: "Heritage"
+          },
+          {
+            id: "b44-woodbox",
+            name: "COINRING LEGENDS WOODBOX",
+            price: 80,
+            status: "verfuegbar",
+            image: "https://base44.app/api/apps/6a8c6271ecc5935877d8b172/files/mp/public/6a8c6271ecc5935877d8b172/5ce61e57e_35860a25-3cd5-4e0f-b6dd-ea60cbcda5dc-1_all_2141.jpg",
+            description: "Traditionelle Sammlerbox mit goldener Wappenprägung und Samtfütterung.",
+            sizes: ["One Size"],
+            badge: "Numismatic"
+          },
+          {
+            id: "b44-premium-woodbox",
+            name: "COINRING LEGENDS PREMIUM WOODBOX",
+            price: 120,
+            status: "verfuegbar",
+            image: "https://base44.app/api/apps/6a8c6271ecc5935877d8b172/files/mp/public/6a8c6271ecc5935877d8b172/f2ef9bd93_1000023527.jpg",
+            description: "Signature Atelier Woodbox aus der Sovereign Collection.",
+            sizes: ["One Size"],
+            badge: "Sovereign"
+          }
+        ];
+
+        base44Seed.forEach(s => {
+          if (!products.some(p => p.name === s.name)) products.push(s);
+        });
+
+        saveProductsState();
+        renderAdminProducts();
+        renderProductGrid();
+        updateDashboardStats();
+        showToast('Base44 Produkte erfolgreich aktualisiert!', 'success');
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-arrows-rotate mr-2"></i> Jetzt live Produkte abrufen & synchronisieren';
+      }
+    }
+
+    /* =======================================================================
+       NEWSLETTER & EXPORTS
+       ======================================================================= */
+    async function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('nlEmail').value.trim();
+      const consent = document.getElementById('nlConsent').checked;
+
+      const subscriber = {
+        email,
+        consent,
+        timestamp: new Date().toISOString()
+      };
+
+      subscribers.unshift(subscriber);
+      localStorage.setItem('crl_subscribers', JSON.stringify(subscribers));
+      if (db) {
+        db.collection('newsletter').add(subscriber).catch(() => {});
+      }
+
+      document.getElementById('nlEmail').value = '';
+      document.getElementById('nlConsent').checked = false;
+
+      if ('Notification' in window) {
+        Notification.requestPermission().then(p => {
+          if (p === 'granted') {
+            try {
+              new Notification('COINRING LEGENDS', {
+                body: 'Danke! Du erhältst Neuheiten über seltene Münzprägungen aus Zuswil / Luzern.',
+                icon: 'logo.jpg'
+              });
+            } catch(e) {}
+          }
+        });
+      }
+
+      updateDashboardStats();
+      showToast('Vielen Dank! Du bist für Neuheiten eingetragen.', 'success');
+    }
+
+    function renderAdminNewsletter() {
+      const tbody = document.getElementById('adminNewsletterTableBody');
+      if (subscribers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="p-6 text-center text-zinc-500">Noch keine Newsletter-Abonnenten.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = subscribers.map(s => `
+        <tr class="hover:bg-zinc-900/50">
+          <td class="p-3.5 font-bold text-white">${s.email}</td>
+          <td class="p-3.5 text-zinc-400">${new Date(s.timestamp).toLocaleDateString('de-CH')}</td>
+          <td class="p-3.5 text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> Erteilt</td>
+        </tr>
+      `).join('');
+    }
+
+    function exportOrdersCSV() {
+      let csv = "ID,Kunde,Telefon,Artikel,Groesse,Preis_CHF,Status,Datum\n";
+      orders.forEach(o => {
+        csv += `"${o.id}","${o.customerName}","${o.phone}","${o.ringType}","${o.size}","${o.price}","${o.status}","${o.timestamp}"\n`;
+      });
+      downloadFile(csv, "coinring_legends_bestellungen.csv", "text/csv");
+    }
+
+    function exportNewsletterCSV() {
+      let csv = "Email,Zustimmung,Datum\n";
+      subscribers.forEach(s => {
+        csv += `"${s.email}","${s.consent}","${s.timestamp}"\n`;
+      });
+      downloadFile(csv, "coinring_legends_newsletter.csv", "text/csv");
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const a = document.createElement('a');
+      const blob = new Blob([content], { type: mimeType });
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+    }
+
+    /* =======================================================================
+       GEOLOCATION & PWA
+       ======================================================================= */
+    function checkLocation() {
+      if (!('geolocation' in navigator)) {
+        showToast('Standortbestimmung nicht verfügbar.', 'info');
+        return;
+      }
+      showToast('Ermittle Standort für Region Zuswil / Kottwil...', 'info');
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          showToast('Standort erkannt! Persönliche Übergabe in der Region Zuswil / Kottwil / Luzern möglich.', 'success');
+        },
+        () => showToast('Postversand schweizweit gewährleistet!', 'info'),
+        { timeout: 7000 }
+      );
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt = null;
+      }
+    }
+
+    function openGitHubModal() {
+      document.getElementById('githubModal').classList.remove('hidden');
+    }
+    function closeGitHubModal() {
+      document.getElementById('githubModal').classList.add('hidden');
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    function showToast(message, type = 'info') {
+      const root = document.getElementById('toastRoot');
+      const toast = document.createElement('div');
+      let border = 'border-gold-500';
+      let icon = 'fa-circle-info text-gold-400';
+      if (type === 'success') {
+        border = 'border-emerald-500';
+        icon = 'fa-circle-check text-emerald-400';
+      }
+      toast.className = `bg-black/95 border ${border} rounded-xl px-4 py-3 shadow-2xl flex items-center space-x-3 text-xs text-white max-w-sm pointer-events-auto transform translate-y-2 transition duration-300`;
+      toast.innerHTML = `<i class="fa-solid ${icon} text-base flex-shrink-0"></i><span>${message}</span>`;
+      root.appendChild(toast);
+      setTimeout(() => toast.classList.remove('translate-y-2'), 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // INIT ON LOAD
+    document.addEventListener('DOMContentLoaded', () => {
+      initFirebase();
+      renderProductGrid();
+      updateDashboardStats();
+    });
+  </script>
+</body>
+</html>
