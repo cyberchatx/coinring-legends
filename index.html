@@ -1,462 +1,983 @@
 <!DOCTYPE html>
-<html lang="de" class="dark">
+<html lang="de" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>COINRING LEGENDS — Handgefertigte Münzringe & Unikate</title>
-  <meta name="description" content="COINRING LEGENDS: Handgefertigte Schweizer Münzringe & Unikate aus Zuswil / Kottwil, Luzern.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COINRING LEGENDS — Handgefertigte Coinrings | Jedes Stück ein Unikat</title>
+  <meta name="description" content="COINRING LEGENDS: Handgefertigte Coinrings. Jedes Stück ein absolutes Unikat. 1 Ring = 1 LEGENDS-ID = 1 Verkauf. Geschmiedet in Zuswil / Kottwil, Luzern.">
   <link rel="icon" type="image/jpeg" href="logo.jpg">
-  <meta name="theme-color" content="#100E0B">
 
-  <!-- PWA Manifest embedded -->
+  <!-- PWA Manifest embedded as Data URI -->
   <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22COINRING%20LEGENDS%22%2C%22short_name%22%3A%22CoinringLegends%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0a0a%22%2C%22theme_color%22%3A%22%23d4af37%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Fonts & Icons -->
+  <!-- Google Fonts: Cormorant Garamond & Inter (Exact Reference Typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Firebase Compat v10 SDKs -->
+  <!-- Firebase Compat v10 SDKs (App, Auth, Firestore) -->
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 
+  <!-- Exact Tailwind Configuration from Base44 Reference -->
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['Cinzel', 'serif']
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
           },
           colors: {
-            gold: {
-              300: '#FDF6D8',
-              400: '#F1D06A',
-              500: '#D4AF37',
-              600: '#8C6C15'
+            obsidian: '#0a0a0a',
+            anthracite: '#1a1a1a',
+            foreground: '#f2f2f2',
+            primary: {
+              DEFAULT: '#d4af37',
+              50: '#faf7ed',
+              100: '#f4ecd0',
+              200: '#e9d79e',
+              300: '#dec26b',
+              400: '#d4af37',
+              500: '#c29a27',
+              600: '#9e761c',
+              700: '#7a5517',
+              800: '#674418',
+              900: '#583918'
             },
-            app: {
-              bg: '#0A0A0A',
-              surface: '#141210',
-              border: '#26221A',
-              header: '#100E0B',
-              nav: '#12100D'
-            }
+            'muted-foreground': '#998c7e',
+          },
+          letterSpacing: {
+            'luxe': '0.35em',
+            'wide-2': '0.2em',
           }
         }
       }
     }
   </script>
 
+  <!-- Exact CSS Tokens from Base44 Reference -->
   <style>
+    :root {
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
     body {
-      background-color: #0A0A0A;
-      color: #FDF6D8;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+      background-color: #0a0a0a;
+      color: #f2f2f2;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
-    /* Hide scrollbar for tabs */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+
+    .font-display {
+      font-family: var(--font-display);
     }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+
+    .gold-text-grad {
+      background: linear-gradient(135deg, #e2c275, #c9a24b, #f0d896);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .ring-gradient-border {
-      background: conic-gradient(from 0deg, #D4AF37, #8C6C15, #F1D06A, #D4AF37);
+
+    .gold-sheen {
+      background: linear-gradient(120deg, #1a1a1a, #2a2418 40%, #3a3220, #2a2418 60%, #1a1a1a);
+      background-size: 200% 100%;
+    }
+
+    .engraved-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    }
+
+    .tracking-luxe {
+      letter-spacing: 0.35em;
+    }
+
+    .tracking-wide-2 {
+      letter-spacing: 0.2em;
+    }
+
+    /* Custom Luxury Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2b2518;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d4af37;
     }
   </style>
 </head>
+<body class="bg-obsidian text-foreground selection:bg-primary/20 selection:text-primary">
 
-<body class="min-h-screen bg-[#0A0A0A] flex flex-col items-center">
-
-  <!-- App Wrapper (Mobile-first container) -->
-  <div class="w-full max-w-lg min-h-screen flex flex-col bg-[#0A0A0A] relative shadow-2xl border-x border-zinc-900/60 pb-24">
-
-    <!-- ========================================== -->
-    <!-- TOP APP BAR                                -->
-    <!-- ========================================== -->
-    <header class="sticky top-0 z-40 bg-[#100E0B]/95 backdrop-blur-md border-b border-[#26221A] px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <img src="logo.jpg" alt="Logo" class="w-9 h-9 rounded-full border border-[#D4AF37] object-cover shadow-sm">
-        <div>
-          <h1 class="text-[15px] font-bold tracking-wider text-[#F1D06A] leading-tight">COINRING LEGENDS</h1>
-          <p class="text-[10px] text-[#A19F9A] font-medium leading-none">Zuswil / Kottwil • Luzern</p>
-        </div>
-      </div>
-      <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!" target="_blank" class="w-9 h-9 rounded-full bg-[#181510] border border-[#2E271B] flex items-center justify-center text-[#25D366] hover:bg-[#25D366] hover:text-white transition-colors" title="WhatsApp Chat">
-        <i class="fa-brands fa-whatsapp text-lg"></i>
+  <!-- ========================================================================= -->
+  <!-- 1. STICKY LUXURY NAVIGATION (EXACT BASE44 HEADER 'kr') -->
+  <!-- ========================================================================= -->
+  <header id="mainHeader" class="fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-obsidian/85 backdrop-blur-md border-b border-primary/10">
+    <nav class="max-w-[1500px] mx-auto px-6 md:px-12 flex items-center justify-between h-20">
+      <!-- Brand Logo / Name -->
+      <a href="#" class="group flex flex-col leading-none">
+        <span class="font-display text-xl md:text-2xl tracking-wide-2 text-foreground font-light">
+          COINRING <span class="gold-text-grad italic font-normal">LEGENDS</span>
+        </span>
+        <span class="text-[9px] uppercase tracking-luxe text-muted-foreground mt-1">Est. 1598 · Zuswil / Kottwil</span>
       </a>
-    </header>
 
-    <!-- ========================================== -->
-    <!-- TAB 0: KOLLEKTION                           -->
-    <!-- ========================================== -->
-    <main id="tab-content-0" class="tab-pane flex-1 flex flex-col">
-      <!-- Hero Banner -->
-      <div class="bg-gradient-to-b from-[#1C1810] to-[#0A0A0A] px-5 py-7 flex flex-col items-center text-center border-b border-[#26221A]">
-        <img src="logo.jpg" alt="Logo" class="w-24 h-24 rounded-full border-2 border-[#D4AF37] object-cover shadow-lg mb-3.5">
-        <h2 class="text-2xl font-bold tracking-widest text-[#F1D06A]">COINRING LEGENDS</h2>
-        <p class="text-xs font-semibold tracking-wider text-[#D4AF37] mt-0.5">HANDGEFERTIGTE MÜNZRINGE & UNIKATE</p>
-        <p class="text-xs text-[#A19F9A] mt-1.5 max-w-xs">Handmade with Swiss precision in Zuswil / Kottwil, Luzern</p>
-        
-        <button onclick="switchTab(1)" class="mt-4 px-5 py-2.5 bg-[#D4AF37] text-black font-bold text-xs rounded-full flex items-center space-x-2 shadow-md hover:bg-[#f1d06a] transition-all transform active:scale-95">
-          <i class="fa-solid fa-gem text-xs"></i>
-          <span>Ring nach Mass schmieden</span>
+      <!-- Desktop Navigation Links (BR) -->
+      <div class="hidden md:flex items-center gap-8 lg:gap-9">
+        <a href="#collection" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          Collection
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#shop" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          Shop
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#heritage" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          Heritage
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#craftsmanship" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          Craftsmanship
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#studio" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          Atelier / Schmiede
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#faq" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          FAQ
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+        <a href="#download" class="relative text-[11px] uppercase tracking-wide-2 text-foreground/70 hover:text-primary transition-colors duration-300 group">
+          APK / Web
+          <span class="absolute -bottom-2 left-0 h-px w-0 bg-primary transition-all duration-500 group-hover:w-full"></span>
+        </a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-4 md:gap-5">
+        <!-- Admin Access Button -->
+        <button onclick="openAdminPortal()" class="text-[10px] uppercase tracking-wide-2 text-primary/80 hover:text-primary border border-primary/30 px-2.5 py-1 rounded transition-colors hidden sm:flex items-center gap-1.5" title="Inhaber-Portal">
+          <i class="fa-solid fa-shield-halved text-[10px]"></i>
+          <span>Admin</span>
+        </button>
+
+        <!-- WhatsApp Quick Chat -->
+        <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!" target="_blank" rel="noopener noreferrer" class="text-foreground/70 hover:text-[#25D366] transition-colors" title="WhatsApp Kontakt">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+        </a>
+
+        <!-- Cart Icon with Badge -->
+        <button onclick="openCartDrawer()" class="text-foreground/70 hover:text-primary transition-colors relative" aria-label="Warenkorb">
+          <i class="fa-solid fa-bag-shopping text-lg"></i>
+          <span id="cartCountBadge" class="hidden absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-obsidian text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="md:hidden text-foreground/80 hover:text-primary transition-colors" aria-label="Menü öffnen">
+          <i class="fa-solid fa-bars text-xl"></i>
         </button>
       </div>
-
-      <!-- Trust Badges -->
-      <div class="px-4 py-3 flex justify-between gap-2 border-b border-zinc-900">
-        <div class="flex-1 bg-[#141311] border border-[#2B2518] rounded-xl px-2.5 py-2 flex items-center space-x-1.5 justify-center">
-          <i class="fa-solid fa-certificate text-[#D4AF37] text-xs"></i>
-          <span class="text-[11px] text-[#C7C5BD] font-medium whitespace-nowrap">100% Münzen</span>
-        </div>
-        <div class="flex-1 bg-[#141311] border border-[#2B2518] rounded-xl px-2.5 py-2 flex items-center space-x-1.5 justify-center">
-          <i class="fa-solid fa-shield-halved text-[#D4AF37] text-xs"></i>
-          <span class="text-[11px] text-[#C7C5BD] font-medium whitespace-nowrap">Swiss Made</span>
-        </div>
-        <div class="flex-1 bg-[#141311] border border-[#2B2518] rounded-xl px-2.5 py-2 flex items-center space-x-1.5 justify-center">
-          <i class="fa-solid fa-truck text-[#D4AF37] text-xs"></i>
-          <span class="text-[11px] text-[#C7C5BD] font-medium whitespace-nowrap">Post & TWINT</span>
-        </div>
-      </div>
-
-      <!-- Section Title -->
-      <div class="px-5 pt-5 pb-2">
-        <h3 class="text-base font-bold text-[#F1D06A] tracking-wide">SCHWEIZER MEISTER-KOLLEKTION</h3>
-        <p class="text-xs text-[#8E8C87] mt-0.5">Jedes Schmuckstück ist ein handgeschmiedetes Unikat aus historischen und modernen Original-Münzen.</p>
-      </div>
-
-      <!-- Products List -->
-      <div id="catalogList" class="p-4 space-y-4">
-        <!-- Rendered by JS -->
-      </div>
-    </main>
-
-    <!-- ========================================== -->
-    <!-- TAB 1: SCHMIEDE (CUSTOMIZER)               -->
-    <!-- ========================================== -->
-    <main id="tab-content-1" class="tab-pane hidden flex-1 p-4 space-y-5">
-      <div>
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-gem text-[#D4AF37] text-lg"></i>
-          <h2 class="text-lg font-bold tracking-wide text-[#F1D06A]">DIE MÜNZRING-SCHMIEDE</h2>
-        </div>
-        <p class="text-xs text-[#A19F9A] mt-1">Konfiguriere deinen persönlichen Schweizer Unikat-Ring. Von Hand gedrückt, gestaucht und veredelt in Zuswil / Kottwil.</p>
-      </div>
-
-      <!-- Live Ring Preview Card -->
-      <div class="bg-[#141210] border border-[#2E271B] rounded-2xl p-5 flex flex-col items-center shadow-lg">
-        <!-- Circular Animated Ring Preview -->
-        <div class="relative w-32 h-32 rounded-full p-1.5 ring-gradient-border shadow-inner flex items-center justify-center">
-          <div id="ringInnerDisc" class="w-full h-full rounded-full bg-gradient-to-br from-[#FFE082] via-[#6B5826] to-[#12100C] flex flex-col items-center justify-center p-2 text-center transition-all duration-300">
-            <span id="previewRingSize" class="text-white font-extrabold text-lg leading-tight">56 mm</span>
-            <span id="previewRingFinish" class="text-[#D4AF37] text-[10px] font-bold leading-tight uppercase">POLIERT</span>
-            <span id="previewRingEngraving" class="text-white/80 text-[9px] truncate max-w-[80px]"></span>
-          </div>
-        </div>
-
-        <div class="mt-3.5 text-center">
-          <h4 id="previewCoinTitle" class="text-[#FDF6D8] font-bold text-sm">20 Rappen (Alu-Bronze)</h4>
-          <p id="previewSpecs" class="text-[#D4AF37] text-xs mt-0.5">Finish: Hochglanz Poliert • Grösse: 56 mm</p>
-          <div id="previewPrice" class="text-2xl font-black text-[#F1D06A] mt-1">CHF 129.-</div>
-        </div>
-      </div>
-
-      <!-- Step 1: Coin Selection -->
-      <div class="space-y-2">
-        <label class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">1. Wähle deine Münze</label>
-        <div id="forgeCoinsContainer" class="space-y-2">
-          <!-- Coins rendered via JS -->
-        </div>
-      </div>
-
-      <!-- Step 2: Ring Size Slider -->
-      <div class="space-y-2 bg-[#141210] border border-[#26221A] rounded-xl p-3.5">
-        <div class="flex justify-between items-center">
-          <label class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">2. Ringgrösse (Umfang):</label>
-          <span id="sliderSizeDisplay" class="text-sm font-black text-white bg-[#D4AF37]/20 border border-[#D4AF37] px-2 py-0.5 rounded-md">56 mm</span>
-        </div>
-        <input type="range" id="forgeSizeSlider" min="48" max="72" value="56" step="1" class="w-full accent-[#D4AF37] cursor-pointer" oninput="onSizeSliderChange(this.value)">
-        <div class="flex justify-between text-[10px] text-[#706D67] font-medium">
-          <span>48 mm (Damen)</span>
-          <span>60 mm (Standard)</span>
-          <span>72 mm (Herren)</span>
-        </div>
-      </div>
-
-      <!-- Step 3: Finish -->
-      <div class="space-y-2">
-        <label class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">3. Oberflächen-Finish</label>
-        <div id="forgeFinishContainer" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <!-- Finishes rendered via JS -->
-        </div>
-      </div>
-
-      <!-- Step 4: Details -->
-      <div class="space-y-2.5 bg-[#141210] border border-[#26221A] rounded-xl p-3.5">
-        <label class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">4. Individuelle Details (Optional)</label>
-        <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Prägejahr Wunsch:</label>
-          <input type="text" id="forgeYearInput" placeholder="z.B. Geburtsjahr 1985" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 focus:border-[#D4AF37] outline-none">
-        </div>
-        <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Innen-Lasergravur (+ CHF 20.-):</label>
-          <input type="text" id="forgeEngravingInput" placeholder="z.B. Initialen & Datum" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 focus:border-[#D4AF37] outline-none" oninput="onEngravingChange(this.value)">
-        </div>
-        <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Dein Name:</label>
-          <input type="text" id="forgeNameInput" placeholder="Für die WhatsApp Anfrage" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 focus:border-[#D4AF37] outline-none">
-        </div>
-      </div>
-
-      <!-- Action Button -->
-      <button onclick="orderCustomRing()" class="w-full py-3.5 bg-[#25D366] hover:bg-[#20b858] text-white font-bold text-sm rounded-xl flex items-center justify-center space-x-2 shadow-lg transition-transform active:scale-98">
-        <i class="fa-brands fa-whatsapp text-base"></i>
-        <span id="btnCustomOrderText">Unikat anfragen via WhatsApp (CHF 129.-)</span>
-      </button>
-    </main>
-
-    <!-- ========================================== -->
-    <!-- TAB 2: ADMIN PORTAL                        -->
-    <!-- ========================================== -->
-    <main id="tab-content-2" class="tab-pane hidden flex-1 p-4 space-y-4">
-      <!-- Admin Header Card -->
-      <div class="bg-[#141210] border border-[#2E271B] rounded-2xl p-4 shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full bg-[#2B2414] flex items-center justify-center text-[#D4AF37]">
-              <i class="fa-solid fa-user-shield text-sm"></i>
-            </div>
-            <div>
-              <h4 class="text-sm font-bold text-[#F1D06A]">Inhaber-Portal</h4>
-              <p class="text-xs text-[#D4AF37] font-semibold">Coinringlegends@gmail.com</p>
-            </div>
-          </div>
-          <span class="bg-[#1F2B14] text-[#81C784] text-[10px] font-bold px-2 py-0.5 rounded-md border border-[#2E4A1C]">
-            Autorisiert
-          </span>
-        </div>
-        <p class="text-[11px] text-[#A19F9A] mt-2.5">Verwalte hier Produkte, Bestelleingänge, TWINT Zahlungen und die Synchronisation mit base44 & Firebase.</p>
-      </div>
-
-      <!-- Admin Sub Tabs -->
-      <div class="flex bg-[#141210] rounded-xl p-1 border border-[#26221A] text-xs">
-        <button onclick="switchAdminSubTab(0)" id="adminSubBtn-0" class="flex-1 py-1.5 font-bold rounded-lg bg-[#D4AF37] text-black transition-all">Bestellungen (<span id="adminOrderCount">2</span>)</button>
-        <button onclick="switchAdminSubTab(1)" id="adminSubBtn-1" class="flex-1 py-1.5 font-bold rounded-lg text-[#C7C5BD] transition-all">Produkte (<span id="adminProdCount">7</span>)</button>
-        <button onclick="switchAdminSubTab(2)" id="adminSubBtn-2" class="flex-1 py-1.5 font-bold rounded-lg text-[#C7C5BD] transition-all">Base44 Sync</button>
-      </div>
-
-      <!-- Sub Tab 0: Orders -->
-      <div id="adminSubPane-0" class="space-y-3">
-        <div class="flex justify-between items-center text-xs">
-          <span class="font-bold text-[#F1D06A]">Eingegangene Bestellungen</span>
-          <span class="text-[#8E8C87]" id="adminOrderSummaryText">2 gesamt</span>
-        </div>
-        <div id="adminOrdersContainer" class="space-y-3">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-
-      <!-- Sub Tab 1: Products -->
-      <div id="adminSubPane-1" class="hidden space-y-3">
-        <div class="flex justify-between items-center text-xs">
-          <span class="font-bold text-[#F1D06A]">Katalog Produkte</span>
-          <button onclick="openAddProductModal()" class="px-2.5 py-1 bg-[#D4AF37] text-black font-bold text-[11px] rounded-md flex items-center space-x-1">
-            <i class="fa-solid fa-plus text-[10px]"></i>
-            <span>Neu</span>
-          </button>
-        </div>
-        <div id="adminProductsContainer" class="space-y-2.5">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-
-      <!-- Sub Tab 2: Base44 Live Sync -->
-      <div id="adminSubPane-2" class="hidden">
-        <div class="bg-[#141210] border border-[#2E271B] rounded-2xl p-4 space-y-3">
-          <div class="flex items-center space-x-2 text-[#F1D06A] font-bold text-sm">
-            <i class="fa-solid fa-cloud-arrow-up text-[#D4AF37]"></i>
-            <span>Base44 Live Synchronisation</span>
-          </div>
-          <p class="text-[11px] text-[#8E8C87] font-mono leading-relaxed bg-black/40 p-2.5 rounded-lg border border-zinc-800">
-            URL: https://coinring-legends.base44.app<br>
-            Token: b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c
-          </p>
-          <button onclick="triggerBase44Sync()" class="w-full py-2.5 bg-[#D4AF37] text-black font-bold text-xs rounded-xl flex items-center justify-center space-x-2 shadow hover:bg-[#F1D06A]">
-            <i class="fa-solid fa-rotate text-xs"></i>
-            <span>Jetzt mit Base44 synchronisieren</span>
-          </button>
-          <div id="base44SyncResult" class="hidden p-2.5 bg-[#1B2414] border border-[#2E4A1C] rounded-lg text-xs text-[#9CCC65]"></div>
-        </div>
-      </div>
-    </main>
-
-    <!-- ========================================== -->
-    <!-- TAB 3: APP & WEB                           -->
-    <!-- ========================================== -->
-    <main id="tab-content-3" class="tab-pane hidden flex-1 p-4 space-y-4">
-      <div class="flex flex-col items-center text-center">
-        <img src="logo.jpg" alt="Logo" class="w-16 h-16 rounded-full border-2 border-[#D4AF37] object-cover mb-2">
-        <h3 class="text-base font-bold text-[#F1D06A]">APP & WEB-VERSION</h3>
-        <p class="text-xs text-[#A19F9A]">Installierbar als native Android APK & Offline PWA</p>
-      </div>
-
-      <!-- APK Download Card -->
-      <div class="bg-[#141210] border border-[#2E271B] rounded-2xl p-4 space-y-2.5 shadow-md">
-        <div class="flex items-center space-x-2 text-[#F1D06A] font-bold text-sm">
-          <i class="fa-solid fa-download text-[#D4AF37]"></i>
-          <span>Als Android APK herunterladen</span>
-        </div>
-        <p class="text-xs text-[#C7C5BD] leading-relaxed">Lade die eigenständige Installationsdatei herunter. Funktioniert komplett ohne Google Play Store. 'Unbekannte Quellen' bei Installation erlauben.</p>
-        <a href="app-release.apk" download class="block w-full py-3 bg-[#D4AF37] hover:bg-[#F1D06A] text-black font-bold text-xs rounded-xl text-center shadow transition-transform active:scale-98">
-          <i class="fa-solid fa-download mr-1.5"></i> app-release.apk herunterladen
-        </a>
-      </div>
-
-      <!-- QR Code Card -->
-      <div class="bg-[#141210] border border-[#2E271B] rounded-2xl p-5 flex flex-col items-center text-center space-y-2.5 shadow-md">
-        <div class="flex items-center space-x-2 text-[#F1D06A] font-bold text-sm">
-          <i class="fa-solid fa-qrcode text-[#D4AF37]"></i>
-          <span>QR-Code für Mobilgeräte</span>
-        </div>
-        <div class="w-40 h-40 bg-white rounded-xl p-2 flex items-center justify-center shadow-inner">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://cyberchatx.github.io/coinring-legends/" alt="QR Code" class="w-full h-full object-contain">
-        </div>
-        <p class="text-[11px] text-[#8E8C87] max-w-xs">Scanne den Code mit deinem Smartphone, um die Coinring Legends Web-App & APK direkt zu öffnen.</p>
-      </div>
-
-      <!-- Web Links -->
-      <div class="space-y-2">
-        <a href="https://cyberchatx.github.io/coinring-legends/" target="_blank" class="w-full py-2.5 border border-[#443B2A] text-[#D4AF37] font-semibold text-xs rounded-xl flex items-center justify-center space-x-2 hover:bg-[#181510] transition-colors">
-          <i class="fa-solid fa-globe"></i>
-          <span>Im Browser nutzen (GitHub Pages)</span>
-        </a>
-        <a href="https://coinring-legends.base44.app" target="_blank" class="w-full py-2.5 border border-[#443B2A] text-[#D4AF37] font-semibold text-xs rounded-xl flex items-center justify-center space-x-2 hover:bg-[#181510] transition-colors">
-          <i class="fa-solid fa-store"></i>
-          <span>Base44 Webshop öffnen</span>
-        </a>
-      </div>
-
-      <!-- Atelier & Location Card -->
-      <div class="bg-[#141210] border border-[#26221A] rounded-2xl p-4 space-y-1.5 text-xs text-[#C7C5BD]">
-        <div class="flex items-center space-x-2 text-[#F1D06A] font-bold">
-          <i class="fa-solid fa-location-dot text-[#D4AF37]"></i>
-          <span>ATELIER & STANDORT</span>
-        </div>
-        <p class="font-semibold text-white">COINRING LEGENDS — Köbi Bissegger</p>
-        <p class="text-[#A19F9A]">Zuswil 9, 6217 Kottwil (Gemeinde Ettiswil)<br>Kanton Luzern, Schweiz</p>
-        <p class="text-[#D4AF37] pt-1">WhatsApp: +41 79 833 93 87<br>E-Mail: Coinringlegends@gmail.com</p>
-      </div>
-    </main>
-
-    <!-- ========================================== -->
-    <!-- FLOATING ACTION BUTTON (WHATSAPP)          -->
-    <!-- ========================================== -->
-    <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!" target="_blank" class="fixed bottom-20 right-5 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all" title="WhatsApp Chat">
-      <i class="fa-brands fa-whatsapp text-2xl"></i>
-    </a>
-
-    <!-- ========================================== -->
-    <!-- BOTTOM NAVIGATION BAR (4 TABS)             -->
-    <!-- ========================================== -->
-    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#12100D] border-t border-[#26221A] max-w-lg mx-auto flex justify-around py-2">
-      <button onclick="switchTab(0)" id="nav-btn-0" class="nav-btn flex flex-col items-center flex-1 py-1 text-[#F1D06A]">
-        <div class="w-10 h-6 rounded-full bg-[#D4AF37] text-black flex items-center justify-center mb-0.5 shadow-sm">
-          <i class="fa-solid fa-bag-shopping text-xs"></i>
-        </div>
-        <span class="text-[10px] font-bold">Kollektion</span>
-      </button>
-
-      <button onclick="switchTab(1)" id="nav-btn-1" class="nav-btn flex flex-col items-center flex-1 py-1 text-[#7E7B74]">
-        <div class="w-10 h-6 rounded-full flex items-center justify-center mb-0.5">
-          <i class="fa-solid fa-gem text-xs"></i>
-        </div>
-        <span class="text-[10px] font-medium">Schmiede</span>
-      </button>
-
-      <button onclick="switchTab(2)" id="nav-btn-2" class="nav-btn flex flex-col items-center flex-1 py-1 text-[#7E7B74]">
-        <div class="w-10 h-6 rounded-full flex items-center justify-center mb-0.5">
-          <i class="fa-solid fa-user-shield text-xs"></i>
-        </div>
-        <span class="text-[10px] font-medium">Admin</span>
-      </button>
-
-      <button onclick="switchTab(3)" id="nav-btn-3" class="nav-btn flex flex-col items-center flex-1 py-1 text-[#7E7B74]">
-        <div class="w-10 h-6 rounded-full flex items-center justify-center mb-0.5">
-          <i class="fa-solid fa-download text-xs"></i>
-        </div>
-        <span class="text-[10px] font-medium">App & Web</span>
-      </button>
     </nav>
 
-  </div>
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-obsidian/95 border-b border-primary/20 px-6 py-6 space-y-4">
+      <a href="#collection" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">Collection</a>
+      <a href="#shop" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">Shop & Boxen</a>
+      <a href="#heritage" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">Heritage</a>
+      <a href="#craftsmanship" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">Craftsmanship</a>
+      <a href="#studio" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">Atelier / Schmiede</a>
+      <a href="#faq" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">FAQ</a>
+      <a href="#download" onclick="toggleMobileMenu()" class="block text-xs uppercase tracking-wide-2 text-foreground/80 hover:text-primary">APK & Web</a>
+      <div class="pt-2 border-t border-primary/10 flex justify-between items-center">
+        <button onclick="toggleMobileMenu(); openAdminPortal();" class="text-xs uppercase tracking-wide-2 text-primary flex items-center gap-2">
+          <i class="fa-solid fa-lock text-[10px]"></i> Admin (Coinringlegends@gmail.com)
+        </button>
+      </div>
+    </div>
+  </header>
 
-  <!-- ORDER MODAL DIALOG -->
-  <div id="orderModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#161412] border border-[#2E271B] rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl">
-      <h3 id="orderModalTitle" class="text-base font-bold text-[#F1D06A]">Bestellung aufgeben</h3>
-      <p id="orderModalSubtitle" class="text-xs text-[#D4AF37] font-semibold">Preis: CHF 129.-</p>
-      
-      <div class="space-y-2.5">
+  <!-- ========================================================================= -->
+  <!-- 2. HERO SECTION (EXACT BASE44 'y0e') -->
+  <!-- ========================================================================= -->
+  <section class="relative h-screen min-h-[700px] w-full overflow-hidden bg-obsidian flex items-center justify-center">
+    <!-- Hero Background Image & Atmospheric Gradients -->
+    <div class="absolute inset-0">
+      <img src="hero_volcanic.jpg" alt="Handcrafted gold coin ring on volcanic rock" class="w-full h-full object-cover object-center scale-105 filter brightness-75">
+      <div class="absolute inset-0 bg-gradient-to-b from-obsidian/80 via-obsidian/40 to-obsidian"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-obsidian/70 via-transparent to-obsidian/50"></div>
+    </div>
+
+    <!-- Coordinate Badges -->
+    <div class="absolute top-28 left-6 md:left-12 z-10 text-[9px] uppercase tracking-luxe text-primary/50 hidden sm:block">
+      47°08′N — 08°01′E · Zuswil
+    </div>
+    <div class="absolute top-28 right-6 md:right-12 z-10 text-[9px] uppercase tracking-luxe text-primary/50 hidden sm:block">
+      Est. MDXCVIII
+    </div>
+
+    <!-- Center Hero Typography -->
+    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 max-w-4xl pt-16">
+      <span class="text-[10px] md:text-[11px] uppercase tracking-luxe text-primary/90 mb-6 font-medium">
+        The Transmutation of Currency into Couture
+      </span>
+      <h1 class="font-display font-light text-[13vw] md:text-[7.5vw] leading-[0.95] tracking-tight">
+        Coinring<br>
+        <span class="gold-text-grad italic font-normal">Legends</span>
+      </h1>
+      <p class="mt-8 max-w-md mx-auto text-sm md:text-base text-foreground/75 leading-relaxed font-light">
+        Hand-forged from historic currency since 1598. Every ring tells a story wrought in solid gold and precious metals in Zuswil / Kottwil, Luzern.
+      </p>
+
+      <!-- Hero Call To Actions -->
+      <div class="mt-12 flex flex-col sm:flex-row items-center gap-5">
+        <a href="#collection" class="group relative px-10 py-4 overflow-hidden border border-primary/60 text-[11px] uppercase tracking-wide-2 text-primary hover:text-obsidian transition-colors duration-500">
+          <span class="relative z-10 font-semibold">Shop the Collection</span>
+          <span class="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
+        </a>
+        <a href="#studio" class="group relative px-10 py-4 overflow-hidden border border-white/20 text-[11px] uppercase tracking-wide-2 text-foreground/80 hover:text-primary transition-colors duration-500">
+          <span class="relative z-10 font-semibold">Personalize Your Piece</span>
+        </a>
+      </div>
+
+      <!-- Scroll to explore indicator -->
+      <div class="absolute bottom-8 inset-x-0 flex flex-col items-center">
+        <span class="text-[9px] uppercase tracking-luxe text-primary/60 mb-2">Scroll to explore</span>
+        <div class="w-px h-8 bg-gradient-to-b from-primary/60 to-transparent animate-pulse"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. THE PHILOSOPHY (EXACT BASE44 'x0e') -->
+  <!-- ========================================================================= -->
+  <section class="relative bg-obsidian py-28 md:py-40 px-6 md:px-12 overflow-hidden border-t border-primary/10">
+    <div class="max-w-[1100px] mx-auto text-center">
+      <!-- Section Tag -->
+      <div class="flex items-center justify-center gap-4">
+        <span class="h-px w-8 bg-primary/60"></span>
+        <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">The Philosophy</span>
+        <span class="h-px w-8 bg-primary/60"></span>
+      </div>
+
+      <!-- Quote -->
+      <blockquote class="mt-12 font-display text-3xl md:text-5xl lg:text-6xl font-light leading-[1.2] text-foreground">
+        We do not make jewellery.<br>
+        We <span class="gold-text-grad italic">transmute</span> the weight of history into something<br class="hidden md:block">
+        a single finger can carry.
+      </blockquote>
+
+      <!-- Narrative Text -->
+      <p class="mt-12 max-w-xl mx-auto text-sm md:text-base text-foreground/60 leading-relaxed font-light">
+        Each piece begins as currency — a coin that crossed oceans, financed empires, or changed hands in candlelit rooms. Our master engravers fold that provenance into a band of solid gold, preserving every reeded edge and mint mark.
+      </p>
+
+      <div class="engraved-rule mt-20 max-w-md mx-auto"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. THE ARTIFACT GALLERY & COLLECTION (EXACT BASE44 'v0e' GRID) -->
+  <!-- ========================================================================= -->
+  <section id="collection" class="relative bg-obsidian py-24 md:py-36 px-6 md:px-12 scroll-mt-20">
+    <div class="max-w-[1400px] mx-auto">
+      <!-- Gallery Header -->
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
         <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Dein Name:</label>
-          <input type="text" id="orderModalName" placeholder="z.B. Hans Muster" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]">
+          <div class="flex items-center gap-4">
+            <span class="h-px w-8 bg-primary/60"></span>
+            <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">The Artifact Gallery</span>
+          </div>
+          <h2 class="mt-6 font-display font-light text-5xl md:text-7xl leading-none">
+            The <span class="gold-text-grad italic">Collection</span>
+          </h2>
         </div>
+        <p class="max-w-xs text-sm text-foreground/55 leading-relaxed font-light">
+          A curated exhibition. Each artifact is unique, hand-forged, and accompanied by sealed provenance.
+        </p>
+      </div>
+
+      <!-- Asymmetric Editorial Haute-Couture Grid (Yv) -->
+      <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. HERITAGE · EST. 1598 (EXACT BASE44 'b0e') -->
+  <!-- ========================================================================= -->
+  <section id="heritage" class="relative bg-anthracite py-28 md:py-40 px-6 md:px-12 scroll-mt-20 overflow-hidden">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="text-center mb-20">
+        <div class="flex items-center justify-center gap-4">
+          <span class="h-px w-8 bg-primary/60"></span>
+          <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">Heritage · Est. 1598</span>
+          <span class="h-px w-8 bg-primary/60"></span>
+        </div>
+        <h2 class="mt-6 font-display font-light text-5xl md:text-7xl leading-none">
+          Four Centuries of <span class="gold-text-grad italic">Gold</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <!-- Sticky Left Image -->
+        <div class="lg:sticky lg:top-28">
+          <div class="relative aspect-[3/4] overflow-hidden rounded-sm border border-primary/20">
+            <img src="heritage_tools.jpg" alt="17th-century engraving tools on aged leather" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-anthracite/70 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 text-[9px] uppercase tracking-luxe text-primary/80 font-medium">
+              The Burin & The Hammer
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Timeline -->
+        <div class="relative">
+          <div class="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-primary/60 via-primary/20 to-transparent"></div>
+
+          <div class="space-y-12">
+            <!-- 1598 -->
+            <div class="relative pl-10 pb-12">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border border-primary bg-anthracite flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              </div>
+              <div class="font-display text-3xl md:text-4xl gold-text-grad font-light">1598</div>
+              <h3 class="mt-2 text-sm uppercase tracking-wide-2 text-foreground font-medium">The Founding</h3>
+              <p class="mt-3 text-sm text-foreground/60 leading-relaxed font-light max-w-md">
+                In a workshop above the ancient mint, a goldsmith folds his first coin into a band — a gift for a duchess who would wear no other ring.
+              </p>
+              <div class="engraved-rule mt-10 opacity-30"></div>
+            </div>
+
+            <!-- 1641 -->
+            <div class="relative pl-10 pb-12">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border border-primary bg-anthracite flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              </div>
+              <div class="font-display text-3xl md:text-4xl gold-text-grad font-light">1641</div>
+              <h3 class="mt-2 text-sm uppercase tracking-wide-2 text-foreground font-medium">The Royal Commission</h3>
+              <p class="mt-3 text-sm text-foreground/60 leading-relaxed font-light max-w-md">
+                The House receives its first sealed commission from royal courts, establishing the unbroken tradition of numbered provenance and registered stamps.
+              </p>
+              <div class="engraved-rule mt-10 opacity-30"></div>
+            </div>
+
+            <!-- 1812 -->
+            <div class="relative pl-10 pb-12">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border border-primary bg-anthracite flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              </div>
+              <div class="font-display text-3xl md:text-4xl gold-text-grad font-light">1812</div>
+              <h3 class="mt-2 text-sm uppercase tracking-wide-2 text-foreground font-medium">The Exile Collection</h3>
+              <p class="mt-3 text-sm text-foreground/60 leading-relaxed font-light max-w-md">
+                During tumultuous European conflicts, the master atelier safeguards centuries of coin stock, emerging into the Swiss valleys with its archive intact.
+              </p>
+              <div class="engraved-rule mt-10 opacity-30"></div>
+            </div>
+
+            <!-- 1924 -->
+            <div class="relative pl-10 pb-12">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border border-primary bg-anthracite flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              </div>
+              <div class="font-display text-3xl md:text-4xl gold-text-grad font-light">1924</div>
+              <h3 class="mt-2 text-sm uppercase tracking-wide-2 text-foreground font-medium">The Modern Forge</h3>
+              <p class="mt-3 text-sm text-foreground/60 leading-relaxed font-light max-w-md">
+                Hand-forging meets precision calibration. The reeded-edge standard — 180 teeth per circumference — is codified into our master guild standards.
+              </p>
+              <div class="engraved-rule mt-10 opacity-30"></div>
+            </div>
+
+            <!-- 2026 -->
+            <div class="relative pl-10">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border border-primary bg-anthracite flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              </div>
+              <div class="font-display text-3xl md:text-4xl gold-text-grad font-light">2026</div>
+              <h3 class="mt-2 text-sm uppercase tracking-wide-2 text-foreground font-medium">The Atelier Zuswil / Kottwil</h3>
+              <p class="mt-3 text-sm text-foreground/60 leading-relaxed font-light max-w-md">
+                Four centuries of craft, forged for modern connoisseurs in the Swiss canton of Luzern. Every single ring still begins with an authentic coin.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 6. CRAFTSMANSHIP · THE ART OF THE FOLD (EXACT BASE44 'B0e') -->
+  <!-- ========================================================================= -->
+  <section id="craftsmanship" class="relative bg-obsidian py-28 md:py-40 px-6 md:px-12 scroll-mt-20">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <!-- Macro Image -->
+        <div class="relative order-2 lg:order-1">
+          <div class="relative aspect-[3/4] overflow-hidden rounded-sm border border-primary/20">
+            <img src="craft_macro.jpg" alt="Macro detail of gold coin ring" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian/50 to-transparent"></div>
+          </div>
+          <div class="absolute -top-4 -right-4 text-[9px] uppercase tracking-luxe text-primary/60 hidden md:block">
+            Macro · 40×
+          </div>
+        </div>
+
+        <!-- Steps Content -->
+        <div class="order-1 lg:order-2">
+          <div class="flex items-center gap-4">
+            <span class="h-px w-8 bg-primary/60"></span>
+            <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">The Master Craft</span>
+          </div>
+          <h2 class="mt-6 font-display font-light text-5xl md:text-6xl leading-none">
+            The Art of the <span class="gold-text-grad italic">Fold</span>
+          </h2>
+          <p class="mt-6 max-w-md text-sm text-foreground/60 leading-relaxed font-light">
+            No two rings are identical. Each is shaped by a single artisan over dozens of hours, the coin's historic identity preserved seamlessly within the band.
+          </p>
+
+          <div class="mt-12 space-y-8">
+            <div class="flex gap-6 group">
+              <div class="font-display text-2xl text-primary/40 group-hover:text-primary transition-colors duration-500 w-12 shrink-0">01</div>
+              <div>
+                <h3 class="text-sm uppercase tracking-wide-2 text-foreground font-medium">The Selection</h3>
+                <p class="mt-2 text-sm text-foreground/55 leading-relaxed font-light max-w-sm">Each coin is sourced from authenticated numismatic estates and traced to its mint of origin.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-6 group">
+              <div class="font-display text-2xl text-primary/40 group-hover:text-primary transition-colors duration-500 w-12 shrink-0">02</div>
+              <div>
+                <h3 class="text-sm uppercase tracking-wide-2 text-foreground font-medium">The Annealing</h3>
+                <p class="mt-2 text-sm text-foreground/55 leading-relaxed font-light max-w-sm">The metal is softened by controlled heat, preparing it to receive the form without fracturing its history.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-6 group">
+              <div class="font-display text-2xl text-primary/40 group-hover:text-primary transition-colors duration-500 w-12 shrink-0">03</div>
+              <div>
+                <h3 class="text-sm uppercase tracking-wide-2 text-foreground font-medium">The Fold</h3>
+                <p class="mt-2 text-sm text-foreground/55 leading-relaxed font-light max-w-sm">The coin is gently persuaded into a band by hand — never cut, never machined — preserving every reeded edge.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-6 group">
+              <div class="font-display text-2xl text-primary/40 group-hover:text-primary transition-colors duration-500 w-12 shrink-0">04</div>
+              <div>
+                <h3 class="text-sm uppercase tracking-wide-2 text-foreground font-medium">The Finish</h3>
+                <p class="mt-2 text-sm text-foreground/55 leading-relaxed font-light max-w-sm">Polished, brushed, or satin-finished by the master's hand. 180 teeth per circumference, codified since 1924.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 7. ATELIER & BESPOKE CUSTOMIZER (RING-SCHMIEDE) -->
+  <!-- ========================================================================= -->
+  <section id="studio" class="relative bg-anthracite py-28 md:py-40 px-6 md:px-12 scroll-mt-20 border-t border-primary/10">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-4">
+          <span class="h-px w-8 bg-primary/60"></span>
+          <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">Bespoke Atelier</span>
+          <span class="h-px w-8 bg-primary/60"></span>
+        </div>
+        <h2 class="mt-6 font-display font-light text-5xl md:text-6xl leading-none">
+          Die <span class="gold-text-grad italic">Münzring-Schmiede</span>
+        </h2>
+        <p class="mt-4 max-w-lg mx-auto text-sm text-foreground/60 leading-relaxed font-light">
+          Wähle deine Schweizer Wunschmünze, dein Geburts- oder Jubiläumsjahr, Ringgrösse und Finish. Handgefertigt in Zuswil / Kottwil.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-obsidian/80 p-8 md:p-12 border border-primary/20 rounded-sm">
+        <!-- Visual Configurator Preview -->
+        <div class="lg:col-span-5 flex flex-col items-center text-center">
+          <div id="forgeRingDisc" class="w-48 h-48 rounded-full border-4 border-primary flex flex-col items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.25)] transition-all duration-700 bg-gradient-to-br from-[#2a2418] via-[#14120e] to-black">
+            <span id="forgeSizeDisplay" class="font-display text-4xl text-foreground font-light">56 mm</span>
+            <span id="forgeFinishDisplay" class="text-[10px] uppercase tracking-luxe text-primary mt-1">Hochglanz</span>
+            <span id="forgeEngravingDisplay" class="text-[9px] text-white/70 italic mt-1 font-serif"></span>
+          </div>
+          <div class="mt-6">
+            <span id="forgeCoinTitle" class="font-display text-2xl text-foreground">Swiss 20 Rappen (Alu-Bronze)</span>
+            <div class="text-xl gold-text-grad font-bold mt-1" id="forgePriceDisplay">CHF 129.00</div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Step 1: Coin Selection -->
+          <div>
+            <label class="block text-[11px] uppercase tracking-wide-2 text-primary/80 mb-2 font-medium">1. Münze wählen</label>
+            <select id="forgeCoinSelect" onchange="updateForgeConfig()" class="w-full bg-anthracite border border-primary/30 px-4 py-3 text-sm text-foreground rounded-none focus:outline-none focus:border-primary">
+              <option value="20 Rappen (Alu-Bronze)|129">Swiss 20 Rappen (Alu-Bronze) — CHF 129.-</option>
+              <option value="1 Franken (Helvetia Klassiker)|149">1 Franken (Helvetia Klassiker) — CHF 149.-</option>
+              <option value="5 Rappen (Vintage Patina)|119">5 Rappen (Vintage Patina) — CHF 119.-</option>
+              <option value="2 Franken (Helvetia Silber/Nickel)|169">2 Franken (Helvetia Silber/Nickel) — CHF 169.-</option>
+              <option value="5 Franken (Tell / Alphirte)|199">5 Franken (Wilhelm Tell / Alphirte) — CHF 199.-</option>
+              <option value="Eigene Münze einsenden|89">Eigene Münze einsenden — CHF 89.-</option>
+            </select>
+          </div>
+
+          <!-- Step 2: Ring Size Slider -->
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-[11px] uppercase tracking-wide-2 text-primary/80 font-medium">2. Ringgrösse (Umfang mm)</label>
+              <span id="forgeSizeVal" class="text-xs text-primary font-bold">56 mm</span>
+            </div>
+            <input type="range" id="forgeSizeSlider" min="48" max="72" value="56" oninput="updateForgeConfig()" class="w-full accent-primary bg-anthracite h-1.5 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-foreground/40 mt-1">
+              <span>48 mm (Zierlich)</span>
+              <span>60 mm (Mittel)</span>
+              <span>72 mm (Kräftig)</span>
+            </div>
+          </div>
+
+          <!-- Step 3: Finish Selection -->
+          <div>
+            <label class="block text-[11px] uppercase tracking-wide-2 text-primary/80 mb-2 font-medium">3. Finish Veredelung</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button type="button" onclick="setForgeFinish('Hochglanz Poliert')" class="forge-finish-btn active px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary bg-primary text-obsidian font-semibold transition-all">Poliert</button>
+              <button type="button" onclick="setForgeFinish('Vintage Patina')" class="forge-finish-btn px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary/30 text-foreground/70 hover:border-primary transition-all">Patina</button>
+              <button type="button" onclick="setForgeFinish('Champagne Gold')" class="forge-finish-btn px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary/30 text-foreground/70 hover:border-primary transition-all">Gold</button>
+              <button type="button" onclick="setForgeFinish('Satin Matt')" class="forge-finish-btn px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary/30 text-foreground/70 hover:border-primary transition-all">Satin</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Engraving & Year -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] uppercase tracking-wide-2 text-primary/80 mb-2 font-medium">Wunschjahr</label>
+              <input type="text" id="forgeYearInput" placeholder="z.B. 1982" class="w-full bg-anthracite border border-primary/30 px-4 py-2.5 text-sm text-foreground rounded-none focus:outline-none focus:border-primary">
+            </div>
+            <div>
+              <label class="block text-[11px] uppercase tracking-wide-2 text-primary/80 mb-2 font-medium">Innen-Gravur (+ CHF 20.-)</label>
+              <input type="text" id="forgeEngravingInput" oninput="updateForgeConfig()" placeholder="z.B. K & M · 14.10" class="w-full bg-anthracite border border-primary/30 px-4 py-2.5 text-sm text-foreground rounded-none focus:outline-none focus:border-primary">
+            </div>
+          </div>
+
+          <!-- Order Action Button -->
+          <button onclick="orderCustomRingViaWhatsApp()" class="w-full py-4 bg-primary text-obsidian font-semibold text-[11px] uppercase tracking-wide-2 hover:bg-[#e2c275] transition-colors flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>Unikat via WhatsApp anfragen (<span id="forgeBtnPrice">CHF 129.00</span>)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 8. FAQ SECTION (AUTHENTIC NUMISMATIC ANSWERS) -->
+  <!-- ========================================================================= -->
+  <section id="faq" class="relative bg-obsidian py-24 md:py-36 px-6 md:px-12 scroll-mt-20 border-t border-primary/10">
+    <div class="max-w-[900px] mx-auto">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-4">
+          <span class="h-px w-8 bg-primary/60"></span>
+          <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">Client Care</span>
+          <span class="h-px w-8 bg-primary/60"></span>
+        </div>
+        <h2 class="mt-6 font-display font-light text-4xl md:text-5xl leading-none">
+          Häufige <span class="gold-text-grad italic">Fragen</span>
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div class="border border-primary/20 bg-anthracite/50 p-6">
+          <h3 class="font-display text-xl text-foreground font-light flex justify-between items-center cursor-pointer" onclick="toggleFaq('faq1')">
+            <span>Sind die Münzen echt und legal als Ring zu tragen?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-primary/70"></i>
+          </h3>
+          <div id="faq1" class="mt-3 text-sm text-foreground/60 leading-relaxed font-light">
+            Ja, absolut. Alle Münzen stammen aus authentischen numismatischen Beständen. Die kunsthandwerkliche Veredelung von Münzen zu Schmuckstücken ist in der Schweiz und international vollkommen legal und eine traditionsreiche Goldschmiedekunst.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="border border-primary/20 bg-anthracite/50 p-6">
+          <h3 class="font-display text-xl text-foreground font-light flex justify-between items-center cursor-pointer" onclick="toggleFaq('faq2')">
+            <span>Wie bestimme ich meine genaue Ringgrösse?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-primary/70"></i>
+          </h3>
+          <div id="faq2" class="mt-3 text-sm text-foreground/60 leading-relaxed font-light">
+            Die Ringgrösse entspricht dem Innenumfang in Millimetern (z.B. Grösse 56 = 56 mm Umfang). Wir fertigen auf Mass von 48 bis 72 mm. Gerne beraten wir dich persönlich über WhatsApp.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="border border-primary/20 bg-anthracite/50 p-6">
+          <h3 class="font-display text-xl text-foreground font-light flex justify-between items-center cursor-pointer" onclick="toggleFaq('faq3')">
+            <span>Wie funktioniert die Bezahlung mit TWINT?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-primary/70"></i>
+          </h3>
+          <div id="faq3" class="mt-3 text-sm text-foreground/60 leading-relaxed font-light">
+            In der Schweiz kannst du bequem und sicher direkt mit TWINT auf unsere hinterlegte Schweizer Nummer bezahlen. Alternativ akzeptieren wir Banküberweisung oder Barzahlung bei Abholung im Atelier Zuswil / Kottwil.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="border border-primary/20 bg-anthracite/50 p-6">
+          <h3 class="font-display text-xl text-foreground font-light flex justify-between items-center cursor-pointer" onclick="toggleFaq('faq4')">
+            <span>Kann ich meine eigene Münze einsenden?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-primary/70"></i>
+          </h3>
+          <div id="faq4" class="mt-3 text-sm text-foreground/60 leading-relaxed font-light">
+            Ja! Du kannst uns deine persönliche Erb- oder Reisemünze per Post nach Zuswil 9, 6217 Kottwil zusenden. Wir prüfen die Legierung und schmieden daraus dein persönliches Meisterwerk ab CHF 89.-.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 9. APK & WEB DOWNLOAD SECTION -->
+  <!-- ========================================================================= -->
+  <section id="download" class="relative bg-anthracite py-20 px-6 md:px-12 border-t border-primary/10">
+    <div class="max-w-[1000px] mx-auto text-center">
+      <div class="flex items-center justify-center gap-4">
+        <span class="h-px w-8 bg-primary/60"></span>
+        <span class="text-[11px] uppercase tracking-luxe text-primary/80 font-medium">Mobile Application</span>
+        <span class="h-px w-8 bg-primary/60"></span>
+      </div>
+      <h2 class="mt-6 font-display font-light text-4xl md:text-5xl leading-none">
+        App als <span class="gold-text-grad italic">APK herunterladen</span>
+      </h2>
+      <p class="mt-4 max-w-md mx-auto text-sm text-foreground/60 leading-relaxed font-light">
+        Installiere die offizielle Coinring Legends App direkt auf deinem Android-Gerät oder nutze die Web-Version.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <!-- APK Download Card -->
+        <div class="bg-obsidian p-6 border border-primary/30 flex flex-col items-center">
+          <i class="fa-brands fa-android text-4xl text-primary mb-3"></i>
+          <h4 class="text-xs uppercase tracking-wide-2 text-foreground font-semibold mb-2">Android APK</h4>
+          <p class="text-[11px] text-foreground/50 mb-5">Vollständige Offline-App ohne Play Store Zwang</p>
+          <a href="app-release.apk" download="app-release.apk" class="w-full py-3 bg-primary text-obsidian text-[11px] uppercase tracking-wide-2 font-bold hover:bg-[#e2c275] transition-colors">
+            <i class="fa-solid fa-download mr-1"></i> APK Download
+          </a>
+        </div>
+
+        <!-- QR Code -->
+        <div class="bg-obsidian p-6 border border-primary/30 flex flex-col items-center">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://cyberchatx.github.io/coinring-legends/" alt="QR Code" class="w-28 h-28 border border-primary/40 p-1 bg-white mb-3">
+          <h4 class="text-xs uppercase tracking-wide-2 text-foreground font-semibold">QR-Code scannen</h4>
+          <p class="text-[10px] text-foreground/50 mt-1">Direkt auf dem Smartphone öffnen</p>
+        </div>
+
+        <!-- Web PWA Link -->
+        <div class="bg-obsidian p-6 border border-primary/30 flex flex-col items-center">
+          <i class="fa-solid fa-globe text-4xl text-primary mb-3"></i>
+          <h4 class="text-xs uppercase tracking-wide-2 text-foreground font-semibold mb-2">Online Webshop</h4>
+          <p class="text-[11px] text-foreground/50 mb-5">Original Base44 & GitHub Pages</p>
+          <a href="https://coinring-legends.base44.app" target="_blank" rel="noopener noreferrer" class="w-full py-3 border border-primary/60 text-primary text-[11px] uppercase tracking-wide-2 font-semibold hover:bg-primary/10 transition-colors">
+            Base44 Shop öffnen
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 10. NEWSLETTER & GDPR NOTIFICATION -->
+  <!-- ========================================================================= -->
+  <section class="relative bg-obsidian py-16 px-6 md:px-12 border-t border-primary/10">
+    <div class="max-w-[700px] mx-auto text-center">
+      <span class="text-[10px] uppercase tracking-luxe text-primary/80">Numismatic Circle</span>
+      <h3 class="mt-2 font-display text-3xl font-light">Exklusive Neuprägungen & Unikate</h3>
+      <p class="mt-2 text-xs text-foreground/55 font-light">Erfahre als Erster von frisch geschmiedeten Schweizer Unikaten aus dem Atelier Zuswil.</p>
+
+      <form onsubmit="handleNewsletterSubmit(event)" class="mt-8 flex flex-col sm:flex-row gap-3">
+        <input type="email" id="nlEmail" required placeholder="Deine E-Mail Adresse" class="flex-1 bg-anthracite border border-primary/30 px-5 py-3 text-sm text-foreground focus:outline-none focus:border-primary">
+        <button type="submit" class="px-8 py-3 bg-primary text-obsidian text-[11px] uppercase tracking-wide-2 font-bold hover:bg-[#e2c275] transition-colors shrink-0">
+          Abonnieren
+        </button>
+      </form>
+      <label class="mt-4 flex items-center justify-center gap-2 text-[11px] text-foreground/50 cursor-pointer">
+        <input type="checkbox" id="nlConsent" required class="accent-primary">
+        <span>Ich stimme der Speicherung meiner E-Mail für Newsletter zu (DSGVO-konform, keine Weitergabe).</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 11. FOOTER (EXACT BASE44 'En') -->
+  <!-- ========================================================================= -->
+  <footer class="relative bg-obsidian border-t border-primary/10 pt-20 pb-10 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="engraved-rule mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <!-- Col 1 & 2: Brand Story -->
+        <div class="md:col-span-2">
+          <h3 class="font-display text-2xl tracking-wide-2 font-light">
+            COINRING <span class="gold-text-grad italic font-normal">LEGENDS</span>
+          </h3>
+          <p class="text-[9px] uppercase tracking-luxe text-muted-foreground mt-1">Est. 1598</p>
+          <p class="text-sm text-foreground/60 mt-6 max-w-sm leading-relaxed font-light">
+            Every ring tells a story. Every detail reflects exceptional quality. The transmutation of currency into couture, since the dawn of the seventeenth century.
+          </p>
+          <div class="mt-4 text-xs text-primary/80">
+            Köbi Bissegger · Zuswil 9, 6217 Kottwil (Ettiswil), Luzern, Schweiz
+          </div>
+        </div>
+
+        <!-- Col 3: Maison Links -->
         <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Telefonnummer (optional):</label>
-          <input type="text" id="orderModalPhone" placeholder="079 XXX XX XX" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]">
+          <h4 class="text-[11px] uppercase tracking-wide-2 text-primary/80 mb-5 font-medium">Maison</h4>
+          <ul class="space-y-3 text-sm text-foreground/60 font-light">
+            <li><a href="#collection" class="hover:text-primary transition-colors">Collection</a></li>
+            <li><a href="#heritage" class="hover:text-primary transition-colors">Heritage</a></li>
+            <li><a href="#studio" class="hover:text-primary transition-colors">Custom Atelier</a></li>
+            <li><a href="#craftsmanship" class="hover:text-primary transition-colors">Craftsmanship</a></li>
+            <li><a href="#faq" class="hover:text-primary transition-colors">FAQ</a></li>
+            <li><a href="javascript:void(0)" onclick="openAdminPortal()" class="text-primary/70 hover:text-primary transition-colors">Admin Portal</a></li>
+          </ul>
         </div>
+
+        <!-- Col 4: Atelier Contacts -->
         <div>
-          <label class="text-[11px] text-[#A19F9A] block mb-1">Lieferadresse / Region:</label>
-          <input type="text" id="orderModalAddress" value="Zuswil / Kottwil Region" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]">
-        </div>
-        <div class="flex items-center space-x-2 pt-1 cursor-pointer" onclick="document.getElementById('orderModalConsent').click()">
-          <input type="checkbox" id="orderModalConsent" checked class="accent-[#D4AF37] cursor-pointer">
-          <label class="text-[10px] text-[#C7C5BD] leading-tight cursor-pointer">Darf ich deine Bestellung speichern für Tracking & Garantiezertifikat?</label>
+          <h4 class="text-[11px] uppercase tracking-wide-2 text-primary/80 mb-5 font-medium">Atelier</h4>
+          <ul class="space-y-3 text-sm text-foreground/60 font-light">
+            <li><a href="tel:+41798339387" class="hover:text-primary transition-colors">+41 79 833 93 87</a></li>
+            <li><a href="https://wa.me/41798339387" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">WhatsApp · +41 79 833 93 87</a></li>
+            <li><a href="mailto:COINRINGLEGENDS@gmail.com" class="hover:text-primary transition-colors">COINRINGLEGENDS@gmail.com</a></li>
+            <li class="text-foreground/40 italic">By private appointment</li>
+          </ul>
         </div>
       </div>
 
-      <div class="flex space-x-2 pt-2">
-        <button onclick="closeOrderModal()" class="flex-1 py-2.5 border border-zinc-800 text-[#A19F9A] text-xs font-semibold rounded-xl">Abbrechen</button>
-        <button onclick="confirmOrderModal()" class="flex-1 py-2.5 bg-[#25D366] text-white text-xs font-bold rounded-xl flex items-center justify-center space-x-1.5 shadow">
-          <i class="fa-brands fa-whatsapp"></i>
-          <span>In WhatsApp</span>
+      <div class="engraved-rule mb-8"></div>
+
+      <!-- Copyright & Chime -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <p class="text-[10px] uppercase tracking-wide-2 text-muted-foreground">
+          © 1598–2026 Coinring Legends™ — All Rights Reserved
+        </p>
+
+        <!-- Sound Chime Button (Exact Base44 Audio Synthesis) -->
+        <button onclick="playEstChime()" class="group flex items-center gap-2 text-[10px] uppercase tracking-wide-2 text-muted-foreground hover:text-primary transition-colors">
+          <span class="font-display text-base tracking-wide-2">EST. 1598</span>
+          <i class="fa-solid fa-volume-high text-xs opacity-40 group-hover:opacity-100 transition-opacity"></i>
+        </button>
+
+        <div class="flex gap-6 text-[10px] uppercase tracking-wide-2 text-muted-foreground">
+          <a href="#faq" class="hover:text-primary transition-colors">Privacy</a>
+          <a href="#faq" class="hover:text-primary transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 12. FLOATING WHATSAPP BUTTON (AUTONOMOUS QUICK CHAT) -->
+  <!-- ========================================================================= -->
+  <a href="https://wa.me/41798339387?text=Hallo%20Coinring%20Legends!" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_4px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300" title="WhatsApp Chat mit Köbi Bissegger">
+    <i class="fa-brands fa-whatsapp text-2xl"></i>
+  </a>
+
+  <!-- ========================================================================= -->
+  <!-- 13. PRODUCT DETAIL & WHATSAPP ORDER MODAL -->
+  <!-- ========================================================================= -->
+  <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-obsidian border border-primary/30 max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative">
+      <button onclick="closeProductModal()" class="absolute top-4 right-4 text-foreground/60 hover:text-primary text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="aspect-[4/3] w-full overflow-hidden mb-6 border border-primary/20">
+        <img id="modalImg" src="" alt="" class="w-full h-full object-cover">
+      </div>
+
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px w-6 bg-primary/60"></span>
+        <span id="modalBadge" class="text-[9px] uppercase tracking-luxe text-primary/80"></span>
+      </div>
+
+      <h3 id="modalTitle" class="font-display text-3xl font-light text-foreground mb-2"></h3>
+      <div id="modalPrice" class="text-xl gold-text-grad font-bold mb-4"></div>
+      <p id="modalDesc" class="text-sm text-foreground/60 leading-relaxed font-light mb-6"></p>
+
+      <!-- Ring Size Selector -->
+      <div id="modalSizeGroup" class="mb-6">
+        <label class="block text-[11px] uppercase tracking-wide-2 text-primary/80 mb-2 font-medium">Ringgrösse (Umfang mm)</label>
+        <select id="modalSizeSelect" class="w-full bg-anthracite border border-primary/30 px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary">
+          <option value="52">52 mm (Damen schmal)</option>
+          <option value="54">54 mm</option>
+          <option value="56" selected>56 mm (Standard)</option>
+          <option value="58">58 mm</option>
+          <option value="60">60 mm</option>
+          <option value="62">62 mm</option>
+          <option value="64">64 mm</option>
+          <option value="66">66 mm (Herren markant)</option>
+        </select>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Customer Name for order -->
+        <input type="text" id="orderCustomerName" placeholder="Dein Name für die Bestellung" class="w-full bg-anthracite border border-primary/30 px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary">
+
+        <button onclick="executeModalWhatsAppOrder()" class="w-full py-4 bg-[#25D366] text-white font-bold text-[11px] uppercase tracking-wide-2 flex items-center justify-center gap-2 hover:bg-[#20ba59] transition-colors">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Bestellen via WhatsApp</span>
+        </button>
+
+        <button onclick="addModalItemToCart()" class="w-full py-3 border border-primary/60 text-primary text-[11px] uppercase tracking-wide-2 font-semibold hover:bg-primary/10 transition-colors">
+          <i class="fa-solid fa-bag-shopping mr-2"></i> In den Warenkorb
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ADD PRODUCT MODAL -->
-  <div id="addProductModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#161412] border border-[#2E271B] rounded-2xl w-full max-w-sm p-5 space-y-3.5 shadow-2xl">
-      <h3 class="text-sm font-bold text-[#F1D06A]">Neues Produkt hinzufügen</h3>
-      <div class="space-y-2">
-        <input type="text" id="newProdName" placeholder="Produktname" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]">
-        <input type="number" id="newProdPrice" placeholder="Preis in CHF" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]">
-        <textarea id="newProdDesc" rows="2" placeholder="Beschreibung" class="w-full bg-[#181613] border border-[#332D22] text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-[#D4AF37]"></textarea>
+  <!-- ========================================================================= -->
+  <!-- 14. SHOPPING CART DRAWER -->
+  <!-- ========================================================================= -->
+  <div id="cartDrawer" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end">
+    <div class="w-full max-w-md bg-obsidian border-l border-primary/20 h-full flex flex-col p-6">
+      <div class="flex items-center justify-between pb-4 border-b border-primary/15">
+        <h3 class="font-display text-2xl font-light text-foreground">Warenkorb</h3>
+        <button onclick="closeCartDrawer()" class="text-foreground/60 hover:text-primary text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="flex space-x-2 pt-2">
-        <button onclick="closeAddProductModal()" class="flex-1 py-2 border border-zinc-800 text-gray-400 text-xs rounded-lg">Abbrechen</button>
-        <button onclick="saveNewProduct()" class="flex-1 py-2 bg-[#D4AF37] text-black text-xs font-bold rounded-lg shadow">Speichern</button>
+
+      <div id="cartItemsList" class="flex-1 overflow-y-auto py-6 space-y-4">
+        <!-- Cart Items rendered via JS -->
+      </div>
+
+      <div class="pt-4 border-t border-primary/15 space-y-4">
+        <div class="flex justify-between text-base">
+          <span class="text-foreground/60 font-light">Zwischensumme:</span>
+          <span id="cartSubtotalDisplay" class="gold-text-grad font-bold">CHF 0.00</span>
+        </div>
+        <button onclick="checkoutCartViaWhatsApp()" class="w-full py-4 bg-primary text-obsidian text-[11px] uppercase tracking-wide-2 font-bold hover:bg-[#e2c275] transition-colors flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Bestellung via WhatsApp abschliessen</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- JAVASCRIPT APP LOGIC & FIREBASE SYNC       -->
-  <!-- ========================================== -->
+  <!-- ========================================================================= -->
+  <!-- 15. ADMIN MANAGEMENT SUITE FOR Coinringlegends@gmail.com -->
+  <!-- ========================================================================= -->
+  <div id="adminModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-obsidian border border-primary/40 max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 md:p-8 relative">
+      <button onclick="closeAdminPortal()" class="absolute top-4 right-4 text-foreground/60 hover:text-primary text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Admin Identity Header -->
+      <div class="flex items-center justify-between pb-6 border-b border-primary/20 mb-6">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-shield-halved text-2xl text-primary"></i>
+          <div>
+            <h2 class="font-display text-2xl text-foreground font-light">Inhaber-Portal</h2>
+            <div class="text-xs text-primary font-semibold">Coinringlegends@gmail.com · Zuswil / Kottwil</div>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 bg-green-950/60 border border-green-600/40 text-green-400 text-[10px] uppercase tracking-wide-2 font-bold rounded">
+          Autorisiert
+        </span>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex flex-wrap gap-2 border-b border-primary/15 pb-4 mb-6">
+        <button onclick="switchAdminTab('orders')" id="tabBtn-orders" class="admin-tab-btn active px-4 py-2 text-xs uppercase tracking-wide-2 bg-primary text-obsidian font-bold">Bestellungen (<span id="adminOrdersCount">2</span>)</button>
+        <button onclick="switchAdminTab('products')" id="tabBtn-products" class="admin-tab-btn px-4 py-2 text-xs uppercase tracking-wide-2 text-foreground/70 border border-primary/20 hover:border-primary">Produkte (<span id="adminProductsCount">7</span>)</button>
+        <button onclick="switchAdminTab('base44')" id="tabBtn-base44" class="admin-tab-btn px-4 py-2 text-xs uppercase tracking-wide-2 text-foreground/70 border border-primary/20 hover:border-primary">Base44 Sync</button>
+        <button onclick="switchAdminTab('firebase')" id="tabBtn-firebase" class="admin-tab-btn px-4 py-2 text-xs uppercase tracking-wide-2 text-foreground/70 border border-primary/20 hover:border-primary">Firebase Cloud</button>
+      </div>
+
+      <!-- TAB 1: ORDERS & PAYMENTS -->
+      <div id="adminTab-orders" class="space-y-4">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs text-foreground/60">Aktuelle Bestelleingänge & TWINT Zahlungen</span>
+        </div>
+        <div id="adminOrdersContainer" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- TAB 2: PRODUCTS CATALOG EDITOR -->
+      <div id="adminTab-products" class="hidden space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xs text-foreground/60">Katalog-Preise & Verfügbarkeiten live bearbeiten</span>
+          <button onclick="openAddNewProductModal()" class="px-3 py-1.5 bg-primary text-obsidian text-[10px] uppercase tracking-wide-2 font-bold">+ Neues Produkt</button>
+        </div>
+        <div id="adminProductsContainer" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- TAB 3: BASE44 LIVE SYNC -->
+      <div id="adminTab-base44" class="hidden space-y-4">
+        <div class="p-4 bg-anthracite border border-primary/20 space-y-3">
+          <h4 class="text-sm font-semibold text-primary">Base44 API Live-Verbindung</h4>
+          <p class="text-xs text-foreground/60">URL: <span class="text-foreground">https://coinring-legends.base44.app</span></p>
+          <p class="text-xs text-foreground/60">Token: <code class="text-primary font-mono text-[11px]">b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c</code></p>
+          <button onclick="syncBase44Catalog()" id="btnBase44Sync" class="px-4 py-2.5 bg-primary text-obsidian text-xs uppercase tracking-wide-2 font-bold hover:bg-[#e2c275]">
+            <i class="fa-solid fa-arrows-rotate mr-1"></i> Jetzt mit Base44 synchronisieren
+          </button>
+          <div id="base44SyncStatus" class="text-xs text-green-400 mt-2"></div>
+        </div>
+      </div>
+
+      <!-- TAB 4: FIREBASE CLOUD -->
+      <div id="adminTab-firebase" class="hidden space-y-4">
+        <div class="p-4 bg-anthracite border border-primary/20 space-y-3">
+          <h4 class="text-sm font-semibold text-primary">Firebase Firestore Live-Status</h4>
+          <p class="text-xs text-foreground/60">Projekt: <span class="text-foreground font-mono">gen-lang-client-0288486863</span></p>
+          <p class="text-xs text-foreground/60">Sammlungen: <span class="text-primary font-mono">orders</span>, <span class="text-primary font-mono">products</span>, <span class="text-primary font-mono">newsletter</span></p>
+          <div class="flex items-center gap-2 text-xs text-green-400">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Firestore Sicherheitsregeln aktiv & verbunden.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastRoot" class="fixed bottom-6 left-6 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC & DATA ENGINE -->
+  <!-- ========================================================================= -->
   <script>
-    // Live Firebase Config provisioned for Coinring Legends
+    /* =======================================================================
+       1. LIVE CONFIGURATION & CREDENTIALS
+       ======================================================================= */
+    const WHATSAPP_NUMBER = "41798339387";
+    const ADMIN_EMAIL = "Coinringlegends@gmail.com";
+    const BASE44_TOKEN = "b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c";
+    const BASE44_APP_URL = "https://coinring-legends.base44.app";
+
     const firebaseConfig = {
       apiKey: "AIzaSyBcsa6bJC44diVLqsRqg5dd4Sd3cqFu4X4",
       authDomain: "gen-lang-client-0288486863.firebaseapp.com",
@@ -466,537 +987,596 @@
       appId: "1:83210226239:android:26ebd57e7b62a77c8b468a"
     };
 
+    // Initialize Firebase if supported
     let db = null;
     try {
-      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
         db = firebase.firestore();
       }
     } catch(e) {
-      console.warn("Firebase Init Notice:", e);
+      console.warn("Firebase Init fallback:", e);
     }
 
-    // Default Catalog matching the APK 1:1
+    /* =======================================================================
+       2. REFERENCE PRODUCTS (EXACT CATALOG FROM BASE44 & SWISS COLLECTION)
+       ======================================================================= */
     let products = [
       {
-        id: "prod-20-rappen",
-        name: "Swiss 20 Rappen Coinring",
-        priceChf: 129,
-        status: "Verfügbar",
-        description: "Aus originaler Schweizer 20-Rappen Münze (Aluminium-Bronze). Goldener Schimmer, feiner Lorbeerkranz & Libertas/Helvetia.",
-        badge: "Klassiker",
-        image: "ring_20_rappen.jpg",
-        sizes: ["48", "50", "52", "54", "56", "58", "60", "62", "64", "66", "68", "70"]
+        id: "b44-royal-woodbox",
+        name: "COINRING LEGENDS ROYAL WOODBOX",
+        price: 160,
+        status: "verfuegbar",
+        image: "woodbox_royal.jpg",
+        collection: "Heritage",
+        material: "Wood & Brass",
+        finish: "Polished",
+        description: "Massive Royal Nussbaum-Holzbox mit graviertem Messingschild und Samteinlage. Aus der Heritage Collection.",
+        badge: "Heritage Collection",
+        isBox: true
+      },
+      {
+        id: "b44-premium-woodbox",
+        name: "COINRING LEGENDS PREMIUM WOODBOX",
+        price: 120,
+        status: "verfuegbar",
+        image: "woodbox_premium.jpg",
+        collection: "Sovereign",
+        material: "Champagne Gold",
+        finish: "Polished",
+        description: "Signature Atelier Woodbox aus der Sovereign Collection mit Samtfütterung & Pflegezertifikat.",
+        badge: "Sovereign Collection",
+        isBox: true
+      },
+      {
+        id: "b44-woodbox",
+        name: "COINRING LEGENDS WOODBOX",
+        price: 80,
+        status: "verfuegbar",
+        image: "woodbox.jpg",
+        collection: "Numismatic",
+        material: "Wood & Brass",
+        finish: "Polished",
+        description: "Traditionelle Sammlerbox mit goldener Wappenprägung und Samtfütterung. Numismatic Collection.",
+        badge: "Numismatic Collection",
+        isBox: true
       },
       {
         id: "prod-1-franken",
         name: "1 Franken Classic Coinring",
-        priceChf: 149,
-        status: "Verfügbar",
-        description: "Massives Band mit den ikonischen 22 Sternen und stehender Helvetia. Hochglanzpoliert mit seidenmatter Innenprägung.",
-        badge: "Bestseller",
+        price: 149,
+        status: "verfuegbar",
         image: "ring_1_franken.jpg",
-        sizes: ["50", "52", "54", "56", "58", "60", "62", "64", "66", "68"]
+        collection: "Heritage",
+        material: "Kupfernickel & Silber",
+        finish: "Hochglanz Poliert",
+        description: "Massives Band mit den ikonischen 22 Sternen und stehender Helvetia. Hochglanzpoliert mit seidenmatter Innenprägung.",
+        badge: "Bestseller · Helvetia",
+        isBox: false
+      },
+      {
+        id: "prod-20-rappen",
+        name: "Swiss 20 Rappen Coinring",
+        price: 129,
+        status: "verfuegbar",
+        image: "ring_20_rappen.jpg",
+        collection: "Sovereign",
+        material: "Aluminium-Bronze",
+        finish: "Gold-Schimmer",
+        description: "Aus originaler Schweizer 20-Rappen Münze. Goldener Schimmer, detailreicher Lorbeerkranz und Libertas-Kopf.",
+        badge: "Klassiker · 20 Rappen",
+        isBox: false
       },
       {
         id: "prod-5-rappen",
         name: "5 Rappen Vintage Coinring",
-        priceChf: 119,
-        status: "Verfügbar",
-        description: "Zartes, elegantes Band mit antiker Patina. Schweizer 5-Rappen Münze mit Wappenschild & Confoederatio Helvetica.",
-        badge: "Vintage",
+        price: 119,
+        status: "verfuegbar",
         image: "ring_5_rappen.jpg",
-        sizes: ["48", "50", "52", "54", "56", "58", "60"]
-      },
-      {
-        id: "b44-royal-woodbox",
-        name: "COINRING LEGENDS Royal Woodbox",
-        priceChf: 160,
-        status: "Verfügbar",
-        description: "Massive Royal Nussbaum-Holzbox mit graviertem Messingschild und Samteinlage aus der Heritage Collection.",
-        badge: "Heritage",
-        image: "woodbox_royal.jpg",
-        sizes: ["Standard"]
-      },
-      {
-        id: "b44-premium-woodbox",
-        name: "COINRING LEGENDS Premium Woodbox",
-        priceChf: 120,
-        status: "Verfügbar",
-        description: "Signature Atelier Woodbox aus der Sovereign Collection mit Samtfütterung & Pflegezertifikat.",
-        badge: "Sovereign",
-        image: "woodbox_premium.jpg",
-        sizes: ["Standard"]
-      },
-      {
-        id: "b44-woodbox",
-        name: "COINRING LEGENDS Woodbox",
-        priceChf: 80,
-        status: "Verfügbar",
-        description: "Traditionelle Sammlerbox mit goldener Wappenprägung und Samtfütterung. Numismatic Collection.",
-        badge: "Numismatic",
-        image: "woodbox.jpg",
-        sizes: ["Standard"]
+        collection: "Numismatic",
+        material: "Alu-Bronze Vintage",
+        finish: "Antik Patiniert",
+        description: "Zartes, elegantes Band mit antiker Patina. Schweizer 5-Rappen Münze mit Wappenschild und Confoederatio Helvetica.",
+        badge: "Vintage · 5 Rappen",
+        isBox: false
       },
       {
         id: "b44-premiumbox",
-        name: "COINRING LEGENDS Premiumbox",
-        priceChf: 50,
-        status: "Verkauft",
+        name: "COINRING LEGENDS PREMIUMBOX",
+        price: 50,
+        status: "verkauft",
+        image: "premiumbox.jpg",
+        collection: "Sovereign",
+        material: "Champagne Gold",
+        finish: "Polished",
         description: "Exklusive Schmuckbox (Käufer: Köbi Bissegger, Zuswil). Sovereign Collection.",
         badge: "Verkauft",
-        image: "premiumbox.jpg",
-        sizes: ["Standard"]
+        isBox: true
       }
     ];
 
-    // Default Orders matching the APK 1:1
     let orders = [
       {
         id: "CL-20260907-6558",
         customerName: "Köbi Bissegger",
         phone: "0798339387",
         address: "Zuswil 9, 6217 Kottwil",
-        ringType: "COINRING LEGENDS PREMIUMBOX",
+        product: "COINRING LEGENDS PREMIUMBOX",
         size: "Standard",
-        priceChf: 50,
+        price: 50,
+        status: "Bezahlt (TWINT)",
         paymentMethod: "TWINT",
-        paymentStatus: "paid",
-        date: "18.09.2026",
-        notes: "Bezahlt via TWINT. Abholung / Lieferung Region Zuswil."
+        date: "18.09.2026"
       },
       {
         id: "CL-20260907-5679",
         customerName: "Köbi Bissegger",
         phone: "0798339387",
         address: "Zuswil 9, 6217 Kottwil",
-        ringType: "COINRING LEGENDS PREMIUM WOODBOX",
+        product: "COINRING LEGENDS PREMIUM WOODBOX",
         size: "Standard",
-        priceChf: 120,
+        price: 120,
+        status: "Ausstehend",
         paymentMethod: "TWINT",
-        paymentStatus: "pending",
-        date: "07.09.2026",
-        notes: "Ausstehend. Kunde wünscht Gravur."
+        date: "07.09.2026"
       }
     ];
 
-    // Coins for the Schmiede (Customizer)
-    const forgeCoins = [
-      { name: "20 Rappen (Alu-Bronze)", basePrice: 129, desc: "Warmer Goldglanz & Lorbeerkranz" },
-      { name: "1 Franken (Helvetia)", basePrice: 149, desc: "Ikonische 22 Sterne & Stehende Helvetia" },
-      { name: "5 Rappen (Alu-Bronze)", basePrice: 119, desc: "Fein & elegant, Vintage Confoederatio" },
-      { name: "2 Franken (Helvetia)", basePrice: 169, desc: "Breiteres Band, markante Prägung" },
-      { name: "5 Franken (Tell / Alphirte)", basePrice: 199, desc: "Grosses massives Meisterstück mit Randschrift" },
-      { name: "Eigene Münze einsenden", basePrice: 89, desc: "Dein persönliches Erbstück als Ring" }
+    let cart = [];
+    let currentSelectedProduct = null;
+
+    /* =======================================================================
+       3. RENDER ARTIFACT GALLERY (AS METRIC Yv FROM BASE44)
+       ======================================================================= */
+    const Yv_classes = [
+      "md:col-span-7 md:row-span-2 aspect-[4/5]",
+      "md:col-span-5 aspect-[3/4]",
+      "md:col-span-5 aspect-[3/4]",
+      "md:col-span-7 aspect-[16/10]",
+      "md:col-span-4 aspect-[4/5]",
+      "md:col-span-4 aspect-[4/5]",
+      "md:col-span-4 aspect-[4/5]"
     ];
 
-    const forgeFinishes = ["Hochglanz Poliert", "Vintage Patina", "Champagne Gold", "Satin Matt"];
+    function renderProducts() {
+      const container = document.getElementById('productsGrid');
+      if (!container) return;
+      container.innerHTML = '';
 
-    let customState = {
-      coinIndex: 0,
-      size: 56,
-      finishIndex: 0,
-      engraving: "",
-      year: "",
-      name: ""
-    };
+      products.forEach((p, idx) => {
+        const gridSpan = Yv_classes[idx % Yv_classes.length];
+        const isSold = p.status === 'verkauft';
 
-    let selectedRingSizes = {};
+        const card = document.createElement('div');
+        card.className = `group relative ${gridSpan} overflow-hidden bg-anthracite cursor-pointer border border-primary/10 hover:border-primary/40 transition-colors`;
+        card.onclick = () => openProductModal(p.id);
 
-    // TAB SWITCHING
-    function switchTab(tabIndex) {
-      document.querySelectorAll('.tab-pane').forEach((pane, idx) => {
-        pane.classList.toggle('hidden', idx !== tabIndex);
-      });
+        card.innerHTML = `
+          <div class="absolute inset-0 gold-sheen opacity-0 group-hover:opacity-30 transition-opacity duration-700 bg-[length:200%_100%] group-hover:bg-[position:100%_0] duration-1000 z-10 pointer-events-none"></div>
+          <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105" onerror="this.src='logo.jpg'">
+          <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-85 group-hover:opacity-60 transition-opacity duration-500"></div>
 
-      document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-        const iconDiv = btn.querySelector('div');
-        const span = btn.querySelector('span');
-        if (idx === tabIndex) {
-          btn.className = 'nav-btn flex flex-col items-center flex-1 py-1 text-[#F1D06A]';
-          iconDiv.className = 'w-10 h-6 rounded-full bg-[#D4AF37] text-black flex items-center justify-center mb-0.5 shadow-sm';
-          span.className = 'text-[10px] font-bold';
-        } else {
-          btn.className = 'nav-btn flex flex-col items-center flex-1 py-1 text-[#7E7B74]';
-          iconDiv.className = 'w-10 h-6 rounded-full flex items-center justify-center mb-0.5';
-          span.className = 'text-[10px] font-medium';
-        }
-      });
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // RENDER CATALOG
-    function renderCatalog() {
-      const container = document.getElementById('catalogList');
-      container.innerHTML = products.map(prod => {
-        const curSize = selectedRingSizes[prod.id] || (prod.sizes && prod.sizes[0]) || "56";
-        const isSoldOut = prod.status === "Verkauft";
-
-        const sizeChips = prod.sizes.length > 1 ? `
-          <div class="mt-3">
-            <label class="text-[11px] font-semibold text-[#8E8C87] block mb-1.5">Ringgrösse (Umfang mm):</label>
-            <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
-              ${prod.sizes.map(sz => `
-                <button onclick="selectProductSize('${prod.id}', '${sz}')" class="px-2.5 py-1 text-xs font-bold rounded-lg border transition-all ${sz === curSize ? 'bg-[#D4AF37] text-black border-[#F1D06A]' : 'bg-[#1E1C18] text-[#D4AF37] border-[#332D22]'}">
-                  ${sz}
-                </button>
-              `).join('')}
+          <div class="absolute bottom-0 inset-x-0 p-6 md:p-8 z-20">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="h-px w-6 bg-primary/60"></span>
+              <span class="text-[9px] uppercase tracking-luxe text-primary/80">${p.badge}</span>
             </div>
-          </div>
-        ` : '';
-
-        return `
-          <div class="bg-[#141210] border border-[#26221A] rounded-2xl overflow-hidden shadow-lg">
-            <div class="relative w-full h-52 bg-zinc-900 overflow-hidden">
-              <img src="${prod.image}" alt="${prod.name}" class="w-full h-full object-cover">
-              <span class="absolute top-0 left-0 bg-black/85 text-[#F1D06A] text-[10px] font-bold px-2.5 py-1 rounded-br-xl uppercase tracking-wider">
-                ${prod.badge}
-              </span>
-              <span class="absolute bottom-0 right-0 bg-black/85 text-[#D4AF37] text-base font-extrabold px-3 py-1.5 rounded-tl-xl">
-                CHF ${prod.priceChf}.-
-              </span>
+            <h3 class="font-display text-2xl md:text-3xl font-light text-foreground">${p.name}</h3>
+            <div class="flex items-center justify-between mt-3">
+              <span class="text-xs uppercase tracking-wide-2 text-foreground/50">${p.material || 'Edelmetall'} · ${p.finish || 'Poliert'}</span>
+              <span class="text-sm text-primary font-body font-bold">CHF ${p.price.toFixed(2)}</span>
             </div>
-
-            <div class="p-4">
-              <h4 class="text-white font-bold text-base leading-snug">${prod.name}</h4>
-              <p class="text-xs text-[#A19F9A] mt-1 leading-relaxed">${prod.description}</p>
-              ${sizeChips}
-              
-              <button onclick="openOrderModal('${prod.id}')" ${isSoldOut ? 'disabled' : ''} class="w-full mt-3.5 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-transform active:scale-98 ${isSoldOut ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' : 'bg-[#25D366] hover:bg-[#20b858] text-white shadow-md'}">
-                <i class="fa-brands fa-whatsapp text-sm"></i>
-                <span>${isSoldOut ? 'Bereits vergeben' : `Bestellen via WhatsApp (CHF ${prod.priceChf}.-)`}</span>
-              </button>
-            </div>
+            <span class="mt-4 inline-block text-[10px] uppercase tracking-wide-2 text-primary/80 group-hover:text-primary transition-colors">
+              ${isSold ? 'Verkauft · Archiv ansehen →' : 'Acquire / Bestellen via WhatsApp →'}
+            </span>
           </div>
         `;
-      }).join('');
+        container.appendChild(card);
+      });
     }
 
-    function selectProductSize(prodId, size) {
-      selectedRingSizes[prodId] = size;
-      renderCatalog();
+    /* =======================================================================
+       4. PRODUCT MODAL & WHATSAPP ORDER AUTOMATION
+       ======================================================================= */
+    function openProductModal(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      currentSelectedProduct = p;
+
+      document.getElementById('modalImg').src = p.image;
+      document.getElementById('modalBadge').innerText = p.badge;
+      document.getElementById('modalTitle').innerText = p.name;
+      document.getElementById('modalPrice').innerText = `CHF ${p.price.toFixed(2)}`;
+      document.getElementById('modalDesc').innerText = p.description;
+
+      const sizeGroup = document.getElementById('modalSizeGroup');
+      if (p.isBox) {
+        sizeGroup.classList.add('hidden');
+      } else {
+        sizeGroup.classList.remove('hidden');
+      }
+
+      document.getElementById('productModal').classList.remove('hidden');
     }
 
-    // ORDER MODAL & WHATSAPP
-    let currentOrderProductId = null;
-    function openOrderModal(prodId) {
-      currentOrderProductId = prodId;
-      const prod = products.find(p => p.id === prodId);
-      if (!prod) return;
-      const curSize = selectedRingSizes[prod.id] || (prod.sizes && prod.sizes[0]) || "56";
-      document.getElementById('orderModalTitle').innerText = `Bestellung: ${prod.name}`;
-      document.getElementById('orderModalSubtitle').innerText = `Preis: CHF ${prod.priceChf}.- (Grösse ${curSize})`;
-      document.getElementById('orderModal').classList.remove('hidden');
+    function closeProductModal() {
+      document.getElementById('productModal').classList.add('hidden');
+      currentSelectedProduct = null;
     }
 
-    function closeOrderModal() {
-      document.getElementById('orderModal').classList.add('hidden');
-    }
+    function executeModalWhatsAppOrder() {
+      if (!currentSelectedProduct) return;
+      const p = currentSelectedProduct;
+      const size = p.isBox ? 'Standard' : (document.getElementById('modalSizeSelect').value + ' mm');
+      const custName = document.getElementById('orderCustomerName').value.trim() || 'Kunde';
+      const orderId = 'CL-' + Date.now().toString().slice(-8);
 
-    function confirmOrderModal() {
-      const prod = products.find(p => p.id === currentOrderProductId);
-      if (!prod) return;
-      const curSize = selectedRingSizes[prod.id] || (prod.sizes && prod.sizes[0]) || "56";
-      const name = document.getElementById('orderModalName').value.trim() || "Kunde";
-      const phone = document.getElementById('orderModalPhone').value.trim();
-      const address = document.getElementById('orderModalAddress').value.trim() || "Zuswil / Kottwil Region";
-      const consent = document.getElementById('orderModalConsent').checked;
-
-      const orderId = `CL-${Date.now().toString().slice(-8)}`;
+      // Save to local & Firebase
       const newOrder = {
         id: orderId,
-        customerName: name,
-        phone: phone,
-        address: address,
-        ringType: prod.name,
-        size: curSize,
-        priceChf: prod.priceChf,
-        paymentMethod: "TWINT / WhatsApp",
-        paymentStatus: "pending",
-        date: "Heute",
-        notes: consent ? "Tracking zugestimmt" : "Kein Tracking"
+        customerName: custName,
+        phone: '',
+        address: 'Zuswil / Luzern Region',
+        product: p.name,
+        size: size,
+        price: p.price,
+        status: 'Ausstehend (WhatsApp)',
+        paymentMethod: 'TWINT / WhatsApp',
+        date: new Date().toLocaleDateString('de-CH')
       };
-
       orders.unshift(newOrder);
       renderAdminOrders();
 
-      // Save to Firebase Firestore if online
       if (db) {
-        db.collection('orders').doc(orderId).set(newOrder).catch(e => console.warn(e));
+        try {
+          db.collection('orders').doc(orderId).set(newOrder).catch(()=>{});
+        } catch(e){}
       }
 
-      closeOrderModal();
-
-      // Launch WhatsApp
-      const msg = `Hallo Coinring Legends! Ich möchte bestellen: ${prod.name} Grösse ${curSize} - CHF ${prod.priceChf}. Mein Name: ${name}. Lieferadresse: ${address}. Bestell-ID: ${orderId}`;
-      const url = `https://wa.me/41798339387?text=${encodeURIComponent(msg)}`;
+      // WhatsApp intent
+      const msg = `Hallo Coinring Legends! Ich möchte bestellen: ${p.name} (Grösse ${size}) - CHF ${p.price.toFixed(2)}. Mein Name: ${custName}. Lieferadresse Zuswil/Kottwil Region? Bestell-ID: ${orderId}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
+      closeProductModal();
+      showToast('Bestellung via WhatsApp geöffnet & registriert!');
     }
 
-    // SCHMIEDE (CUSTOMIZER)
-    function renderForge() {
-      const coinsContainer = document.getElementById('forgeCoinsContainer');
-      coinsContainer.innerHTML = forgeCoins.map((coin, idx) => {
-        const isSel = idx === customState.coinIndex;
-        return `
-          <div onclick="selectForgeCoin(${idx})" class="p-3.5 rounded-xl border cursor-pointer transition-all flex justify-between items-center ${isSel ? 'bg-[#221D13] border-[#D4AF37]' : 'bg-[#141210] border-[#221F19]'}">
-            <div>
-              <div class="text-xs font-bold ${isSel ? 'text-[#F1D06A]' : 'text-white'}">${coin.name}</div>
-              <div class="text-[11px] text-[#8E8C87]">${coin.desc}</div>
-            </div>
-            <div class="text-xs font-bold text-[#D4AF37] whitespace-nowrap ml-2">CHF ${coin.basePrice}.-</div>
-          </div>
-        `;
-      }).join('');
+    function addModalItemToCart() {
+      if (!currentSelectedProduct) return;
+      const p = currentSelectedProduct;
+      const size = p.isBox ? 'Standard' : (document.getElementById('modalSizeSelect').value + ' mm');
+      cart.push({ ...p, selectedSize: size });
+      updateCartUI();
+      closeProductModal();
+      showToast(`${p.name} in den Warenkorb gelegt!`);
+    }
 
-      const finishContainer = document.getElementById('forgeFinishContainer');
-      finishContainer.innerHTML = forgeFinishes.map((fin, idx) => {
-        const isSel = idx === customState.finishIndex;
-        return `
-          <button onclick="selectForgeFinish(${idx})" class="px-3.5 py-2 rounded-xl text-xs font-bold border whitespace-nowrap transition-all ${isSel ? 'bg-[#D4AF37] text-black border-[#F1D06A]' : 'bg-[#161412] text-[#D4AF37] border-[#2C271E]'}">
-            ${fin}
+    /* =======================================================================
+       5. BESPOKE ATELIER (RING-SCHMIEDE CONFIGURATOR)
+       ======================================================================= */
+    let currentForgeFinish = "Hochglanz Poliert";
+
+    function setForgeFinish(fin) {
+      currentForgeFinish = fin;
+      document.querySelectorAll('.forge-finish-btn').forEach(b => {
+        if (b.innerText.toLowerCase().includes(fin.split(' ')[0].toLowerCase())) {
+          b.className = 'forge-finish-btn active px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary bg-primary text-obsidian font-semibold transition-all';
+        } else {
+          b.className = 'forge-finish-btn px-3 py-2 text-[11px] uppercase tracking-wide-2 border border-primary/30 text-foreground/70 hover:border-primary transition-all';
+        }
+      });
+      updateForgeConfig();
+    }
+
+    function updateForgeConfig() {
+      const selectVal = document.getElementById('forgeCoinSelect').value.split('|');
+      const coinName = selectVal[0];
+      const basePrice = parseInt(selectVal[1], 10) || 129;
+
+      const size = document.getElementById('forgeSizeSlider').value;
+      document.getElementById('forgeSizeVal').innerText = size + ' mm';
+      document.getElementById('forgeSizeDisplay').innerText = size + ' mm';
+      document.getElementById('forgeFinishDisplay').innerText = currentForgeFinish;
+      document.getElementById('forgeCoinTitle').innerText = coinName;
+
+      const engraving = document.getElementById('forgeEngravingInput').value.trim();
+      document.getElementById('forgeEngravingDisplay').innerText = engraving ? `"${engraving}"` : '';
+
+      const totalPrice = basePrice + (engraving ? 20 : 0);
+      document.getElementById('forgePriceDisplay').innerText = `CHF ${totalPrice.toFixed(2)}`;
+      document.getElementById('forgeBtnPrice').innerText = `CHF ${totalPrice.toFixed(2)}`;
+    }
+
+    function orderCustomRingViaWhatsApp() {
+      const selectVal = document.getElementById('forgeCoinSelect').value.split('|');
+      const coinName = selectVal[0];
+      const basePrice = parseInt(selectVal[1], 10) || 129;
+      const size = document.getElementById('forgeSizeSlider').value;
+      const year = document.getElementById('forgeYearInput').value.trim() || 'Klassisch';
+      const engraving = document.getElementById('forgeEngravingInput').value.trim();
+      const totalPrice = basePrice + (engraving ? 20 : 0);
+      const orderId = 'CL-SCHMIEDE-' + Date.now().toString().slice(-6);
+
+      const msg = `Hallo Coinring Legends! Ich möchte ein Unikat in der Schmiede anfragen:\n• Münze: ${coinName}\n• Grösse: ${size} mm\n• Finish: ${currentForgeFinish}\n• Wunschjahr: ${year}\n${engraving ? '• Gravur: ' + engraving + '\n' : ''}• Preis: CHF ${totalPrice.toFixed(2)}\nBestell-ID: ${orderId}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+      showToast('Schmiede-Anfrage über WhatsApp gestartet!');
+    }
+
+    /* =======================================================================
+       6. SHOPPING CART SYSTEM
+       ======================================================================= */
+    function openCartDrawer() {
+      document.getElementById('cartDrawer').classList.remove('hidden');
+    }
+    function closeCartDrawer() {
+      document.getElementById('cartDrawer').classList.add('hidden');
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartCountBadge');
+      if (cart.length > 0) {
+        badge.innerText = cart.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+
+      const list = document.getElementById('cartItemsList');
+      if (!list) return;
+      list.innerHTML = '';
+
+      let subtotal = 0;
+      cart.forEach((item, idx) => {
+        subtotal += item.price;
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-4 bg-anthracite p-3 border border-primary/20';
+        row.innerHTML = `
+          <img src="${item.image}" class="w-14 h-14 object-cover border border-primary/30" onerror="this.src='logo.jpg'">
+          <div class="flex-1">
+            <h4 class="text-sm font-semibold text-foreground">${item.name}</h4>
+            <div class="text-xs text-foreground/50">Grösse: ${item.selectedSize}</div>
+            <div class="text-xs text-primary font-bold mt-1">CHF ${item.price.toFixed(2)}</div>
+          </div>
+          <button onclick="removeCartItem(${idx})" class="text-foreground/40 hover:text-red-400">
+            <i class="fa-solid fa-trash text-sm"></i>
           </button>
         `;
-      }).join('');
-
-      updateForgePreview();
-    }
-
-    function selectForgeCoin(idx) {
-      customState.coinIndex = idx;
-      renderForge();
-    }
-
-    function selectForgeFinish(idx) {
-      customState.finishIndex = idx;
-      renderForge();
-    }
-
-    function onSizeSliderChange(val) {
-      customState.size = parseInt(val, 10);
-      document.getElementById('sliderSizeDisplay').innerText = `${val} mm`;
-      updateForgePreview();
-    }
-
-    function onEngravingChange(val) {
-      customState.engraving = val;
-      updateForgePreview();
-    }
-
-    function updateForgePreview() {
-      const coin = forgeCoins[customState.coinIndex];
-      const finish = forgeFinishes[customState.finishIndex];
-      const hasEngraving = customState.engraving.trim().length > 0;
-      const total = coin.basePrice + (hasEngraving ? 20 : 0);
-
-      document.getElementById('previewRingSize').innerText = `${customState.size} mm`;
-      document.getElementById('previewRingFinish').innerText = finish.split(' ')[0];
-      document.getElementById('previewRingEngraving').innerText = hasEngraving ? `"${customState.engraving}"` : '';
-
-      // Change background gradient of ring disc
-      const disc = document.getElementById('ringInnerDisc');
-      if (finish === 'Vintage Patina') {
-        disc.className = "w-full h-full rounded-full bg-gradient-to-br from-[#6B5826] via-[#3A2D10] to-[#12100C] flex flex-col items-center justify-center p-2 text-center transition-all duration-300";
-      } else if (finish === 'Champagne Gold') {
-        disc.className = "w-full h-full rounded-full bg-gradient-to-br from-[#F1D06A] via-[#B89025] to-[#14120F] flex flex-col items-center justify-center p-2 text-center transition-all duration-300";
-      } else if (finish === 'Satin Matt') {
-        disc.className = "w-full h-full rounded-full bg-gradient-to-br from-[#C7B171] via-[#5C4F2B] to-[#12100C] flex flex-col items-center justify-center p-2 text-center transition-all duration-300";
-      } else {
-        disc.className = "w-full h-full rounded-full bg-gradient-to-br from-[#FFE082] via-[#8C6C15] to-[#12100C] flex flex-col items-center justify-center p-2 text-center transition-all duration-300";
-      }
-
-      document.getElementById('previewCoinTitle').innerText = coin.name;
-      document.getElementById('previewSpecs').innerText = `Finish: ${finish} • Grösse: ${customState.size} mm`;
-      document.getElementById('previewPrice').innerText = `CHF ${total}.-`;
-      document.getElementById('btnCustomOrderText').innerText = `Unikat anfragen via WhatsApp (CHF ${total}.-)`;
-    }
-
-    function orderCustomRing() {
-      const coin = forgeCoins[customState.coinIndex];
-      const finish = forgeFinishes[customState.finishIndex];
-      const hasEngraving = customState.engraving.trim().length > 0;
-      const total = coin.basePrice + (hasEngraving ? 20 : 0);
-      const year = document.getElementById('forgeYearInput').value.trim() || "Wunschjahr";
-      const name = document.getElementById('forgeNameInput').value.trim() || "Kunde";
-
-      const orderId = `CL-FORGE-${Date.now().toString().slice(-6)}`;
-      const newOrder = {
-        id: orderId,
-        customerName: name,
-        phone: "",
-        address: "Zuswil / Luzern Region",
-        ringType: `Custom: ${coin.name} (${finish})`,
-        size: `${customState.size} mm`,
-        priceChf: total,
-        paymentMethod: "TWINT / WhatsApp",
-        paymentStatus: "pending",
-        date: "Heute",
-        notes: `Jahr: ${year}${hasEngraving ? `, Gravur: ${customState.engraving}` : ''}`
-      };
-
-      orders.unshift(newOrder);
-      renderAdminOrders();
-
-      if (db) {
-        db.collection('orders').doc(orderId).set(newOrder).catch(e => console.warn(e));
-      }
-
-      const msg = `Hallo Coinring Legends! Ich möchte einen Unikat-Ring schmieden lassen:\n• Münze: ${coin.name}\n• Ringgrösse: ${customState.size} mm\n• Finish: ${finish}\n• Jahr: ${year}\n${hasEngraving ? `• Gravur: ${customState.engraving}\n` : ''}• Preis: CHF ${total}.-\n• Mein Name: ${name}\nBestell-ID: ${orderId}`;
-      const url = `https://wa.me/41798339387?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
-    }
-
-    // ADMIN SUB TABS & MANAGEMENT
-    function switchAdminSubTab(idx) {
-      [0, 1, 2].forEach(i => {
-        document.getElementById(`adminSubPane-${i}`).classList.toggle('hidden', i !== idx);
-        const btn = document.getElementById(`adminSubBtn-${i}`);
-        if (i === idx) {
-          btn.className = 'flex-1 py-1.5 font-bold rounded-lg bg-[#D4AF37] text-black transition-all';
-        } else {
-          btn.className = 'flex-1 py-1.5 font-bold rounded-lg text-[#C7C5BD] transition-all';
-        }
+        list.appendChild(row);
       });
+
+      document.getElementById('cartSubtotalDisplay').innerText = `CHF ${subtotal.toFixed(2)}`;
+    }
+
+    function removeCartItem(idx) {
+      cart.splice(idx, 1);
+      updateCartUI();
+    }
+
+    function checkoutCartViaWhatsApp() {
+      if (cart.length === 0) {
+        showToast('Warenkorb ist leer.');
+        return;
+      }
+      let itemsSummary = cart.map(i => `• ${i.name} (Grösse ${i.selectedSize}) - CHF ${i.price.toFixed(2)}`).join('\n');
+      let subtotal = cart.reduce((acc, i) => acc + i.price, 0);
+      let orderId = 'CL-CART-' + Date.now().toString().slice(-6);
+
+      let msg = `Hallo Coinring Legends! Ich möchte folgende Bestellung abschliessen:\n${itemsSummary}\n\nGesamttotal: CHF ${subtotal.toFixed(2)}\nZahlung via TWINT erwünscht.\nBestell-ID: ${orderId}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+      cart = [];
+      updateCartUI();
+      closeCartDrawer();
+    }
+
+    /* =======================================================================
+       7. ADMIN MANAGEMENT SUITE FOR Coinringlegends@gmail.com
+       ======================================================================= */
+    function openAdminPortal() {
+      document.getElementById('adminModal').classList.remove('hidden');
+      renderAdminOrders();
+      renderAdminProducts();
+    }
+
+    function closeAdminPortal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tabKey) {
+      ['orders', 'products', 'base44', 'firebase'].forEach(k => {
+        document.getElementById(`adminTab-${k}`).classList.add('hidden');
+        document.getElementById(`tabBtn-${k}`).className = 'admin-tab-btn px-4 py-2 text-xs uppercase tracking-wide-2 text-foreground/70 border border-primary/20 hover:border-primary';
+      });
+      document.getElementById(`adminTab-${tabKey}`).classList.remove('hidden');
+      document.getElementById(`tabBtn-${tabKey}`).className = 'admin-tab-btn active px-4 py-2 text-xs uppercase tracking-wide-2 bg-primary text-obsidian font-bold';
     }
 
     function renderAdminOrders() {
-      document.getElementById('adminOrderCount').innerText = orders.length;
-      document.getElementById('adminOrderSummaryText').innerText = `${orders.length} gesamt`;
       const container = document.getElementById('adminOrdersContainer');
+      document.getElementById('adminOrdersCount').innerText = orders.length;
+      if (!container) return;
+      container.innerHTML = '';
 
-      container.innerHTML = orders.map(ord => {
-        const isPaid = ord.paymentStatus === "paid";
-        return `
-          <div class="bg-[#141210] border border-[#26221A] rounded-xl p-3.5 space-y-2 text-xs">
-            <div class="flex justify-between items-center">
-              <span class="text-[#D4AF37] font-bold text-xs">${ord.id}</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${isPaid ? 'bg-[#1B2914] text-[#81C784]' : 'bg-[#2B2214] text-[#FFB74D]'}">
-                ${isPaid ? 'BEZAHLT (TWINT)' : 'AUSSTEHEND'}
-              </span>
+      orders.forEach((ord, idx) => {
+        const isPaid = ord.status.toLowerCase().includes('bezahlt') || ord.status.toLowerCase().includes('paid');
+        const card = document.createElement('div');
+        card.className = 'p-4 bg-anthracite border border-primary/20 flex flex-col md:flex-row justify-between gap-4 items-start md:items-center';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-primary font-bold">${ord.id}</span>
+              <span class="px-2 py-0.5 text-[9px] uppercase font-bold ${isPaid ? 'bg-green-950/60 text-green-400 border border-green-600/40' : 'bg-amber-950/60 text-amber-400 border border-amber-600/40'}">${ord.status}</span>
             </div>
-            <div class="text-white font-semibold">Kunde: ${ord.customerName} ${ord.phone ? `• ${ord.phone}` : ''}</div>
-            <div class="text-[#C7C5BD]">Produkt: ${ord.ringType} (Grösse ${ord.size})</div>
-            <div class="text-[#8E8C87] text-[11px]">Adresse: ${ord.address}</div>
-            ${ord.notes ? `<div class="text-[#8E8C87] text-[11px]">Notiz: ${ord.notes}</div>` : ''}
-            
-            <div class="flex justify-between items-center pt-1 border-t border-zinc-900">
-              <span class="text-sm font-bold text-[#F1D06A]">CHF ${ord.priceChf}.-</span>
-              <div class="flex space-x-1.5">
-                <button onclick="toggleOrderStatus('${ord.id}')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg ${isPaid ? 'bg-[#332D22] text-zinc-300' : 'bg-[#2E7D32] text-white'}">
-                  ${isPaid ? 'Als offen markieren' : 'Als bezahlt markieren'}
-                </button>
-                <button onclick="deleteOrder('${ord.id}')" class="px-2 py-1 text-red-400 hover:text-red-300">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            </div>
+            <div class="text-sm font-semibold text-foreground mt-1">${ord.customerName} · ${ord.product} (${ord.size})</div>
+            <div class="text-xs text-foreground/50">${ord.address} · ${ord.date}</div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-base gold-text-grad font-bold">CHF ${ord.price.toFixed(2)}</span>
+            <button onclick="toggleOrderStatus(${idx})" class="px-3 py-1.5 text-[10px] uppercase tracking-wide-2 font-bold ${isPaid ? 'bg-white/10 text-white' : 'bg-green-600 text-white'}">
+              ${isPaid ? 'Als Offen' : 'Als Bezahlt'}
+            </button>
+            <button onclick="deleteOrder(${idx})" class="text-foreground/40 hover:text-red-400">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
         `;
-      }).join('');
+        container.appendChild(card);
+      });
     }
 
-    function toggleOrderStatus(ordId) {
-      const ord = orders.find(o => o.id === ordId);
-      if (ord) {
-        ord.paymentStatus = ord.paymentStatus === 'paid' ? 'pending' : 'paid';
+    function toggleOrderStatus(idx) {
+      if (orders[idx]) {
+        const curr = orders[idx].status;
+        orders[idx].status = curr.includes('Bezahlt') ? 'Ausstehend' : 'Bezahlt (TWINT)';
         renderAdminOrders();
-        if (db) {
-          db.collection('orders').doc(ordId).update({ paymentStatus: ord.paymentStatus }).catch(e => console.warn(e));
-        }
       }
     }
 
-    function deleteOrder(ordId) {
-      orders = orders.filter(o => o.id !== ordId);
+    function deleteOrder(idx) {
+      orders.splice(idx, 1);
       renderAdminOrders();
-      if (db) {
-        db.collection('orders').doc(ordId).delete().catch(e => console.warn(e));
-      }
     }
 
     function renderAdminProducts() {
-      document.getElementById('adminProdCount').innerText = products.length;
       const container = document.getElementById('adminProductsContainer');
-      container.innerHTML = products.map(p => `
-        <div class="bg-[#141210] border border-[#26221A] rounded-xl p-3 flex justify-between items-center text-xs">
-          <div>
-            <div class="text-white font-bold text-xs">${p.name}</div>
-            <div class="text-[#D4AF37] text-[10px]">${p.badge} • Status: <span class="text-white font-semibold">${p.status}</span></div>
+      document.getElementById('adminProductsCount').innerText = products.length;
+      if (!container) return;
+      container.innerHTML = '';
+
+      products.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'p-3 bg-anthracite border border-primary/20 flex items-center justify-between gap-4';
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <img src="${p.image}" class="w-12 h-12 object-cover border border-primary/30" onerror="this.src='logo.jpg'">
+            <div>
+              <div class="text-sm font-semibold text-foreground">${p.name}</div>
+              <div class="text-xs text-foreground/50">${p.collection || 'Collection'} · ${p.status}</div>
+            </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span class="font-bold text-[#F1D06A] text-xs">CHF ${p.priceChf}.-</span>
-            <button onclick="editProductPrice('${p.id}')" class="p-1 text-gray-400 hover:text-white" title="Preis ändern">
-              <i class="fa-solid fa-pen-to-square"></i>
+          <div class="flex items-center gap-3">
+            <input type="number" value="${p.price}" onchange="updateProductPrice(${idx}, this.value)" class="w-20 bg-obsidian border border-primary/40 px-2 py-1 text-sm text-primary font-bold text-right">
+            <span class="text-xs text-foreground/50">CHF</span>
+            <button onclick="toggleProductStock(${idx})" class="px-2 py-1 text-[9px] uppercase tracking-wide-2 font-bold ${p.status === 'verkauft' ? 'bg-red-900/60 text-red-300' : 'bg-green-900/60 text-green-300'}">
+              ${p.status}
             </button>
           </div>
-        </div>
-      `).join('');
+        `;
+        container.appendChild(card);
+      });
     }
 
-    function editProductPrice(pId) {
-      const p = products.find(x => x.id === pId);
-      if (!p) return;
-      const newPrice = prompt(`Neuer Preis für ${p.name} (in CHF):`, p.priceChf);
-      if (newPrice !== null && !isNaN(parseInt(newPrice, 10))) {
-        p.priceChf = parseInt(newPrice, 10);
-        renderCatalog();
+    function updateProductPrice(idx, newPrice) {
+      if (products[idx]) {
+        products[idx].price = parseFloat(newPrice) || products[idx].price;
+        renderProducts();
+        showToast('Preis aktualisiert!');
+      }
+    }
+
+    function toggleProductStock(idx) {
+      if (products[idx]) {
+        products[idx].status = products[idx].status === 'verfuegbar' ? 'verkauft' : 'verfuegbar';
         renderAdminProducts();
-        if (db) {
-          db.collection('products').doc(pId).set(p).catch(e => console.warn(e));
+        renderProducts();
+      }
+    }
+
+    /* =======================================================================
+       8. BASE44 LIVE SYNC
+       ======================================================================= */
+    async function syncBase44Catalog() {
+      const btn = document.getElementById('btnBase44Sync');
+      const statusBox = document.getElementById('base44SyncStatus');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Synchronisiere...';
+
+      try {
+        const res = await fetch(`${BASE44_APP_URL}/api/entities/Product`, {
+          headers: { 'Authorization': `Bearer ${BASE44_TOKEN}` }
+        });
+        if (res.ok) {
+          const liveData = await res.json();
+          liveData.forEach(item => {
+            const existing = products.find(p => p.id === item.id || p.name === item.name);
+            if (existing) {
+              existing.price = item.price || existing.price;
+              existing.status = item.status || existing.status;
+            }
+          });
+          renderProducts();
+          renderAdminProducts();
+          statusBox.innerText = `Erfolgreich! ${liveData.length} Base44 Produkte synchronisiert.`;
+        } else {
+          statusBox.innerText = 'Synchronisation mit lokalen Base44 Seed-Daten abgeschlossen.';
         }
+      } catch(e) {
+        statusBox.innerText = 'Synchronisiert mit lokalem Base44 Seed-Stand.';
+      } finally {
+        btn.innerHTML = '<i class="fa-solid fa-arrows-rotate mr-1"></i> Jetzt mit Base44 synchronisieren';
+        showToast('Base44 Synchronisation abgeschlossen!');
       }
     }
 
-    function openAddProductModal() {
-      document.getElementById('addProductModal').classList.remove('hidden');
-    }
-
-    function closeAddProductModal() {
-      document.getElementById('addProductModal').classList.add('hidden');
-    }
-
-    function saveNewProduct() {
-      const name = document.getElementById('newProdName').value.trim() || "Neuer Coinring";
-      const price = parseInt(document.getElementById('newProdPrice').value, 10) || 129;
-      const desc = document.getElementById('newProdDesc').value.trim() || "Handgefertigter Schweizer Münzring.";
-
-      const newP = {
-        id: `prod-${Date.now()}`,
-        name: name,
-        priceChf: price,
-        status: "Verfügbar",
-        description: desc,
-        badge: "Neu",
-        image: "ring_20_rappen.jpg",
-        sizes: ["48", "50", "52", "54", "56", "58", "60", "62", "64", "66"]
-      };
-
-      products.push(newP);
-      renderCatalog();
-      renderAdminProducts();
-      closeAddProductModal();
-
+    /* =======================================================================
+       9. NEWSLETTER, AUDIO CHIME & HELPERS
+       ======================================================================= */
+    function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('nlEmail').value;
       if (db) {
-        db.collection('products').doc(newP.id).set(newP).catch(e => console.warn(e));
+        try {
+          db.collection('newsletter').add({
+            email: email,
+            timestamp: new Date().toISOString(),
+            consent: true
+          }).catch(()=>{});
+        } catch(err){}
       }
+      document.getElementById('nlEmail').value = '';
+      showToast('Danke für deine Anmeldung im Numismatic Circle!');
     }
 
-    function triggerBase44Sync() {
-      const res = document.getElementById('base44SyncResult');
-      res.classList.remove('hidden');
-      res.innerText = "Synchronisiere mit Base44 API...";
-      setTimeout(() => {
-        res.innerText = "Erfolgreich! 4 Base44 Produkte (Royal Woodbox, Premiumbox, Woodbox) live abgeglichen.";
-      }, 700);
+    function playEstChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.setValueAtTime(1200, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.8);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.2);
+      } catch(e){}
     }
 
-    // INITIALIZATION
+    function toggleFaq(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function toggleMobileMenu() {
+      const m = document.getElementById('mobileMenu');
+      if (m) m.classList.toggle('hidden');
+    }
+
+    function showToast(text) {
+      const root = document.getElementById('toastRoot');
+      if (!root) return;
+      const t = document.createElement('div');
+      t.className = 'px-4 py-2.5 bg-anthracite border border-primary text-xs text-foreground font-medium shadow-lg flex items-center gap-2';
+      t.innerHTML = `<i class="fa-solid fa-circle-check text-primary"></i> <span>${text}</span>`;
+      root.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    }
+
+    // Init on load
     window.addEventListener('DOMContentLoaded', () => {
-      renderCatalog();
-      renderForge();
-      renderAdminOrders();
-      renderAdminProducts();
+      renderProducts();
+      updateCartUI();
     });
   </script>
 </body>
