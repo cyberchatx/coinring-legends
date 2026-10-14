@@ -379,7 +379,7 @@
                 Als APK herunterladen
               </a>
 
-              <a href="https://coinring-legends.base44.app" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl border border-gold-500/60 hover:border-gold-400 text-white font-semibold text-xs uppercase tracking-wider hover:bg-zinc-900 transition flex items-center justify-center">
+              <a href="https://cyberchatx.github.io/coinring-legends/" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl border border-gold-500/60 hover:border-gold-400 text-white font-semibold text-xs uppercase tracking-wider hover:bg-zinc-900 transition flex items-center justify-center">
                 <i class="fa-solid fa-globe mr-2 text-gold-400"></i>
                 Im Browser nutzen (Base44)
               </a>
@@ -393,7 +393,7 @@
 
           <!-- QR Code Download Box -->
           <div class="md:col-span-4 flex flex-col items-center justify-center text-center p-6 bg-black/80 border border-zinc-800 rounded-xl">
-            <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://coinring-legends.base44.app" alt="QR Code für APK Download" class="w-36 h-36 p-2 bg-white rounded-lg shadow-md mb-3">
+            <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cyberchatx.github.io/coinring-legends/" alt="QR Code für APK Download" class="w-36 h-36 p-2 bg-white rounded-lg shadow-md mb-3">
             <span class="text-[10px] uppercase tracking-wider text-gold-400 font-bold">QR-Code scannen</span>
             <span class="text-[9px] text-zinc-400 mt-0.5">Öffnet den Download auf deinem Smartphone</span>
           </div>
@@ -698,13 +698,13 @@
                 <i class="fa-solid fa-link"></i>
               </div>
               <div>
-                <h4 class="font-serif text-base font-bold text-white">Live-Schnittstelle zu https://coinring-legends.base44.app</h4>
+                <h4 class="font-serif text-base font-bold text-white">Live-Schnittstelle zu https://cyberchatx.github.io/coinring-legends/</h4>
                 <p class="text-xs text-zinc-400">Synchronisation mit deinem Base44 Backend</p>
               </div>
             </div>
 
             <div class="bg-black p-3.5 rounded-lg border border-zinc-800 font-mono text-xs space-y-1">
-              <div class="text-zinc-400">API Endpoint: <span class="text-white">https://coinring-legends.base44.app/api/entities/Product</span></div>
+              <div class="text-zinc-400">API Endpoint: <span class="text-white">https://cyberchatx.github.io/coinring-legends//api/entities/Product</span></div>
               <div class="text-zinc-400">Autorisierungs-Token: <span class="text-gold-400">b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c</span></div>
               <div class="text-zinc-400">Inhaber-Konto: <span class="text-white">Coinringlegends@gmail.com</span></div>
             </div>
@@ -907,7 +907,7 @@
     let WHATSAPP_NUMBER = "41798339387"; 
     let ADMIN_EMAIL = "Coinringlegends@gmail.com";
     let BASE44_TOKEN = "b44u_6eb9b98a97d57667602b9ea303be7913954c32aba2b6bc392478d30232a3f34c";
-    let BASE44_APP_URL = "https://coinring-legends.base44.app";
+    let BASE44_APP_URL = "https://cyberchatx.github.io/coinring-legends/";
 
     const firebaseConfig = {
       apiKey: "",
@@ -1387,10 +1387,10 @@
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Lade Produkte von Base44...';
       }
 
-      logBox.innerHTML = `[${new Date().toLocaleTimeString()}] Verbinde mit https://coinring-legends.base44.app/api/entities/Product mit Token b44u_...<br>`;
+      logBox.innerHTML = `[${new Date().toLocaleTimeString()}] Verbinde mit https://cyberchatx.github.io/coinring-legends//api/entities/Product mit Token b44u_...<br>`;
 
       try {
-        const response = await fetch('https://coinring-legends.base44.app/api/entities/Product', {
+        const response = await fetch('https://cyberchatx.github.io/coinring-legends//api/entities/Product', {
           headers: {
             'Authorization': `Bearer ${BASE44_TOKEN}`
           }
